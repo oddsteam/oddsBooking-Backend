@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import team.odds.booking.model.Booking;
 import team.odds.booking.service.BookingService;
 
-//@CrossOrigin(origins = "http://localhost:4200",methods = {RequestMethod.GET, RequestMethod.POST}, allowedHeaders = "Authorization" )
-
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/v1/booking")
 @RestController
@@ -19,6 +17,9 @@ public class BookingController {
 
     @PostMapping()
     public ResponseEntity<Booking> createBooking(@RequestBody Booking dataRequest) throws Exception {
+        System.out.println("================== Controller =================");
+        System.out.println(dataRequest);
+        System.out.println("=======================================");
         return new ResponseEntity<>(bookingService.createBooking(dataRequest), HttpStatus.CREATED);
     }
     @GetMapping(value = "/{id}")
