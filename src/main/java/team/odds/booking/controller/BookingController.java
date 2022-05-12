@@ -17,13 +17,13 @@ public class BookingController {
 
     @PostMapping()
     public ResponseEntity<Booking> createBooking(@RequestBody Booking dataRequest) throws Exception {
-        System.out.println("================== Controller =================");
-        System.out.println(dataRequest);
-        System.out.println("=======================================");
         return new ResponseEntity<>(bookingService.createBooking(dataRequest), HttpStatus.CREATED);
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable(value = "id") String bookingId) throws Exception {
+        System.out.println("================== Controller =================");
+        System.out.println(bookingId);
+        System.out.println("=======================================");
         return new ResponseEntity<>(bookingService.getBookingById(bookingId), HttpStatus.OK);
     }
 
