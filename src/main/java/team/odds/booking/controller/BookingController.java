@@ -11,7 +11,6 @@ import team.odds.booking.service.BookingService;
 @RequestMapping("/v1/booking")
 @RestController
 public class BookingController {
-
     @Autowired
     private BookingService bookingService;
 
@@ -21,9 +20,6 @@ public class BookingController {
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable(value = "id") String bookingId) throws Exception {
-        System.out.println("================== Controller =================");
-        System.out.println(bookingId);
-        System.out.println("=======================================");
         return new ResponseEntity<>(bookingService.getBookingById(bookingId), HttpStatus.OK);
     }
 
