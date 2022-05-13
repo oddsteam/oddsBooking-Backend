@@ -11,7 +11,7 @@ ENV TZ=Asia/Bangkok
 ENV JAVA_OPTS="-Xmx1000m -Xms500m -XshowSettings:vm"
 
 WORKDIR /app
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+COPY --from=build /home/gradle/src/build/libs/booking-0.0.1-SNAPSHOT.jar /app/spring-boot-application.jar
 
 ADD ./entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
