@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import team.odds.booking.model.Booking;
 import team.odds.booking.service.BookingService;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/v1/booking")
 @RestController
 public class BookingController {
