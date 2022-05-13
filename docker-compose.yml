@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  oddsbooking-web:
+    image: ${image_web}
+    ports:
+      - 80:80
+    restart: always
+    depends_on:
+      - oddsbooking-api
+  oddsbooking-api:
+    image: ${image_api}
+    ports:
+      - 8081:8080
+    restart: always
+networks:
+  default:
+    name: oddsbooking-network
+
+      
+
