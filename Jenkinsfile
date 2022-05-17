@@ -8,7 +8,7 @@ pipeline{
 
         ORGANIZATION = "odds-booking"
         REGISTRY = "swr.ap-southeast-2.myhuaweicloud.com"
-        TAG = "api-oddsbooking:${GIT_COMMIT}"
+        TAG = "api-oddsbooking:${BRANCH_NAME}"
         API_BUILD_TAG = "${REGISTRY}/${ORGANIZATION}/${TAG}"
 
     }
@@ -36,12 +36,12 @@ pipeline{
             steps{
                 sh  """
                         scp docker-compose.yml oddsbooking@159.138.240.167:./docker-compose.yml
+                        scp deploy-script.sh oddsbooking@159.138.240.167:./deploy-script.sh
                         ssh -oStrictHostKeyChecking=no -t oddsbooking@159.138.240.167 \"
-                                docker login -u ap-southeast-2@H97WABNOA1NBRPW8INUL -p aa275bca967ab0e83dccf3c57efb23ff981d9cd8ae4c66089d4aa25cdf971292 ${REGISTRY}
-                                export image_api=${API_BUILD_TAG}
-                                docker compose down 
-                                docker compose pull
-                                docker compose up -d
+                            chmod +x deploy-script.sh
+                            REGISTRY=${REGISTRY} \
+                            BRANCH_NAME=${BRANCH_NAME} \
+                            ./deploy-script.sh
                         \"
 
                     """
