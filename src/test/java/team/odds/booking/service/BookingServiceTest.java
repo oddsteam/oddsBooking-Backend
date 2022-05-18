@@ -5,6 +5,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import team.odds.booking.model.Booking;
 import team.odds.booking.repository.BookingRepository;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,5 +36,21 @@ public class BookingServiceTest {
         System.out.println(createdBooking);
         assertThat(createdBooking.getId()).isEqualTo("1234");
     }
+
+    @Test
+    void getBookingById() throws Exception {
+        var bookingService = new BookingService();
+        var bookingRepository = mock(BookingRepository.class);
+        ReflectionTestUtils.setField(bookingService, "bookingRepository", bookingRepository);
+        var bookingFromFindById = new Booking();
+        bookingFromFindById.setId("5678");
+        String bookingId = bookingFromFindById.getId();
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(bookingFromFindById));
+        var findBooking = bookingService.getBookingById(bookingId);
+        System.out.println(findBooking);
+        assertThat(findBooking.getId()).isEqualTo("5678");
+    }
+
+    
 
 }
