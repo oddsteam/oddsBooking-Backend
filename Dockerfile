@@ -1,11 +1,11 @@
-FROM gradle:jdk18 AS build
+FROM gradle:jdk11 AS build
 
 WORKDIR /home/gradle/src
 COPY --chown=gradle:gradle . /home/gradle/src
 
 RUN gradle build --no-daemon
 
-FROM openjdk:18
+FROM openjdk:11
 
 ENV TZ=Asia/Bangkok
 ENV JAVA_OPTS="-Xmx1000m -Xms500m -XshowSettings:vm"
