@@ -13,7 +13,6 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     public Booking createBooking(Booking dataRequest) throws Exception {
-        System.out.println(dataRequest);
         try{
             return bookingRepository.save(dataRequest);
         } catch (Exception e) {
