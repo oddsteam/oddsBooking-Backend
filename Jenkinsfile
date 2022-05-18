@@ -16,7 +16,7 @@ pipeline{
     stages{
         stage("unit test"){
             steps{
-                sh "echo '🚨 Unit tests should be added.'"
+                sh "echo '🚨 Unit tests when build.'"
             }
         }
         stage("build image"){
