@@ -32,6 +32,6 @@ public class BookingServiceTest {
         when(bookingRepository.save(dataRequest)).thenReturn(bookingFromSave);
         var createdBooking = bookingService.createBooking(dataRequest);
         System.out.println(createdBooking);
-        assertThat(createdBooking.getId()).isEqualTo("1234");
+        assertThat(createdBooking.getId()).isEqualTo("999");
     }
 }
