@@ -1,5 +1,6 @@
 package team.odds.booking.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import team.odds.booking.model.Booking;
@@ -23,30 +24,38 @@ public class BookingServiceTest {
 //        System.out.println(createdBooking);
 //    }
 
+    BookingRepository bookingRepository = mock(BookingRepository.class);
+    BookingService bookingService = new BookingService(bookingRepository);
+
+//    @BeforeEach
+//    void setUp() {
+//        ReflectionTestUtils.setField(bookingService, "bookingRepository", bookingRepository);
+//    }
+
     @Test
     void createBooking() throws Exception {
-        var bookingService = new BookingService();
-        var bookingRepository = mock(BookingRepository.class);
-        ReflectionTestUtils.setField(bookingService, "bookingRepository", bookingRepository);
+        // Arrange
         var bookingFromSave = new Booking();
         bookingFromSave.setId("1234");
         var dataRequest = new Booking();
         when(bookingRepository.save(dataRequest)).thenReturn(bookingFromSave);
+        // Act
         var createdBooking = bookingService.createBooking(dataRequest);
+        // Assert
         System.out.println(createdBooking);
         assertThat(createdBooking.getId()).isEqualTo("1234");
     }
 
     @Test
     void getBookingById() throws Exception {
-        var bookingService = new BookingService();
-        var bookingRepository = mock(BookingRepository.class);
-        ReflectionTestUtils.setField(bookingService, "bookingRepository", bookingRepository);
+        // Arrange
         var bookingFromFindById = new Booking();
         bookingFromFindById.setId("5678");
         String bookingId = bookingFromFindById.getId();
         when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(bookingFromFindById));
+        // Act
         var findBooking = bookingService.getBookingById(bookingId);
+        // Assert
         System.out.println(findBooking);
         assertThat(findBooking.getId()).isEqualTo("5678");
     }

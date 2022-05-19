@@ -9,8 +9,12 @@ import team.odds.booking.repository.BookingRepository;
 @Service
 public class BookingService {
 
-    @Autowired
+
     private BookingRepository bookingRepository;
+
+    public BookingService(BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+    }
 
     public Booking createBooking(Booking dataRequest) throws Exception {
         try{
