@@ -21,7 +21,7 @@ pipeline{
         }
         stage("build image"){
             steps{
-                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${API_BUILD_TAG} ."
+                sh "docker build --rm --build-arg environment=${BRANCH_NAME} -t ${API_BUILD_TAG} ."
             }
         }
         stage("push docker image"){
