@@ -21,9 +21,9 @@ public class Booking {
     public String room;
     public String reason;
 
-    private String startDate;
+    public String startDate;
 
-    private String endDate;
+    public String endDate;
     public Boolean status;
 
     public LocalDateTime createAt;
