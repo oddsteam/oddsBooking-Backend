@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Component
 public class Helpers {
     public boolean checkBookingDateExpired(LocalDateTime bookingDate) {
-        Duration duration = Duration.between(bookingDate, LocalDateTime.now());
-        long durationDays = duration.toDays();
+        var duration = Duration.between(bookingDate, LocalDateTime.now());
+        var durationDays = duration.toDays();
         return durationDays >= 1;
     }
 }

@@ -23,7 +23,6 @@ public class BookingService {
     public Booking getBooking(String bookingId) throws Exception {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new Exception("Booking not found with this id : " + bookingId));
-//        mailSenderService.mailToUser("https://odds-booking.odds.team/booking_detail", booking);
 
         if (helpers.checkBookingDateExpired(booking.getCreatedAt())) {
             bookingRepository.deleteById(bookingId);

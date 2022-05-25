@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 public class Booking {
 
     @Id
-    public String id;
-    public String fullName;
-    public String email;
-    public String phoneNumber;
-    public String room;
-    public String reason;
+    private String id;
+    private String fullName;
+    private String email;
+    private String phoneNumber;
+    private String room;
+    private String reason;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
@@ -33,14 +33,14 @@ public class Booking {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
 
-    public Boolean status;
+    private Boolean status;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
-    public LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
 }
