@@ -1,49 +1,46 @@
 package team.odds.booking.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Document(collection = "booking")
 public class Booking {
-    
+
     @Id
     public String id;
-    public String name;
+    public String fullName;
     public String email;
     public String phoneNumber;
     public String room;
     public String reason;
 
-    public String startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime startDate;
 
-    public String endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime endDate;
+
     public Boolean status;
 
-    public LocalDateTime createAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    public LocalDateTime createdAt;
 
-    public LocalDateTime updateAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    public LocalDateTime updatedAt;
 
-    @Override
-    public String toString() {
-        return "Booking {" +
-                "id=" + id +
-                ", name='" + name +
-                ", email='" + email +
-                ", phoneNumber='" + phoneNumber +
-                ", room=" + room +
-                ", reason='" + reason +
-                ", startDate='" + startDate +
-                ", endDate='" + endDate +
-                ", status='" + status +
-                ", createAt" + createAt +
-                ", updateAt" + updateAt +
-                '}';
-    }
 }
