@@ -37,7 +37,8 @@ public record BookingService(BookingRepository bookingRepository,
         } catch (RuntimeException e) {
             throw new RuntimeException("Some error occurred while creating booking", e);
         }
-        mailSenderService.mailToUser("https://odds-booking.odds.team/booking_detail", bookingRes);
+        var confirmUrl = "https://odds-booking.odds.team/booking_detail/" + bookingRes.getId();
+        mailSenderService.mailToUser(confirmUrl, bookingRes);
         return bookingRes;
     }
 
@@ -56,7 +57,8 @@ public record BookingService(BookingRepository bookingRepository,
         } catch (RuntimeException e) {
             throw new RuntimeException("Some error occurred while updating booking", e);
         }
-        mailSenderService.mailToOdds("https://odds-booking.odds.team/booking_detail", bookingRes);
+        var bookingDetailsUrl = "https://odds-booking.odds.team/booking_detail/" + bookingRes.getId();
+        mailSenderService.mailToOdds(bookingDetailsUrl, bookingRes);
         return bookingRes;
     }
 }
