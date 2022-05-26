@@ -1,11 +1,11 @@
 package team.odds.booking.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 import team.odds.booking.model.Booking;
+import team.odds.booking.model.dto.BookingDto;
+import team.odds.booking.model.mapper.BookingMapper;
 import team.odds.booking.repository.BookingRepository;
-import team.odds.booking.util.Helpers;
+import team.odds.booking.util.HelperUtils;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -18,13 +18,73 @@ import static org.mockito.Mockito.verify;
 
 public class BookingServiceTest {
     BookingRepository bookingRepository = mock(BookingRepository.class);
-    Helpers helpers = mock(Helpers.class);
-    BookingService bookingService = new BookingService(bookingRepository, helpers);
+    MailSenderService mailSenderService = mock(MailSenderService.class);
+    BookingMapper bookingMapper = mock(BookingMapper.class);
+    BookingService bookingService = new BookingService(bookingRepository, bookingMapper, mailSenderService);
+
+    @Test
+    void getBooking() {
+        // Arrange
+        var dateTime = "2022-05-25T22:04";
+        var booking = new Booking(
+                "1234",
+                "Milk",
+                "milkeyway124@gmail.com",
+                "0640230334",
+                "Neon",
+                "Booking Event",
+                LocalDateTime.parse(dateTime),
+                LocalDateTime.parse(dateTime),
+                false,
+                LocalDateTime.parse(dateTime),
+                LocalDateTime.parse(dateTime)
+        );
+        String bookingId = booking.getId();
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(booking));
+        when(HelperUtils.checkBookingDateExpired(booking.getCreatedAt())).thenReturn(Boolean.FALSE);
+        // Act
+        var bookingRes = bookingService.getBooking(bookingId);
+        // Assert
+        assertThat(bookingRes.getId()).isEqualTo("1234");
+        assertThat(bookingRes.getFullName()).isEqualTo("Milk");
+        assertThat(bookingRes.getEmail()).isEqualTo("milkeyway124@gmail.com");
+        assertThat(bookingRes.getPhoneNumber()).isEqualTo("0640230334");
+        assertThat(bookingRes.getRoom()).isEqualTo("Neon");
+        assertThat(bookingRes.getReason()).isEqualTo("Booking Event");
+        assertThat(bookingRes.getStartDate()).isEqualTo(LocalDateTime.parse(dateTime));
+        assertThat(bookingRes.getEndDate()).isEqualTo(LocalDateTime.parse(dateTime));
+        assertThat(bookingRes.getStatus()).isEqualTo(false);
+        assertThat(bookingRes.getCreatedAt()).isEqualTo(LocalDateTime.parse(dateTime));
+        assertThat(bookingRes.getUpdatedAt()).isEqualTo(LocalDateTime.parse(dateTime));
+        verify(bookingRepository).findById(bookingId);
+    }
+
+    @Test
+    public void getBookingThrowException() {
+        // Arrange
+        var bookingId = "1-jfd234";
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.empty());
+        // Act
+        var exception = assertThrows(Exception.class, () -> bookingService.getBooking(bookingId));
+        // Assert
+        assertThat(exception.getMessage()).isEqualTo("Booking not found with this id : " + bookingId);
+        verify(bookingRepository).findById(bookingId);
+    }
 
     @Test
     void addBooking() throws Exception {
         // Arrange
         var dateTime = "2020-08-21T04:21";
+        var bookingPostDto = new BookingDto(
+                "Milk",
+                "milkeyway124@gmail.com",
+                "0640230334",
+                "Neon",
+                "Booking Event",
+                dateTime,
+                dateTime,
+                false
+        );
         var bookingRes = new Booking(
                 "1234",
                 "Milk",
@@ -40,68 +100,19 @@ public class BookingServiceTest {
         );
         when(bookingRepository.save(any(Booking.class))).thenReturn(bookingRes);
         // Act
-        var addBooking = bookingService.addBooking(bookingRes);
+        var addBooking = bookingService.addBooking(bookingPostDto);
         // Assert
-        assertEquals("1234", addBooking.getId());
-        assertEquals("Milk", addBooking.getFullName());
-        assertEquals("milkeyway124@gmail.com", addBooking.getEmail());
-        assertEquals("0640230334", addBooking.getPhoneNumber());
-        assertEquals("Neon", addBooking.getRoom());
-        assertEquals("Booking Event", addBooking.getReason());
-        assertEquals(LocalDateTime.parse(dateTime), addBooking.getStartDate());
-        assertEquals(LocalDateTime.parse(dateTime), addBooking.getEndDate());
-        assertEquals(false, addBooking.getStatus());
-        assertEquals(LocalDateTime.parse(dateTime), addBooking.getCreatedAt());
-        assertEquals(LocalDateTime.parse(dateTime), addBooking.getUpdatedAt());
+        assertThat(addBooking.getId()).isEqualTo("1234");
+        assertThat(addBooking.getFullName()).isEqualTo("Milk");
+        assertThat(addBooking.getEmail()).isEqualTo("milkeyway124@gmail.com");
+        assertThat(addBooking.getPhoneNumber()).isEqualTo("0640230334");
+        assertThat(addBooking.getRoom()).isEqualTo("Neon");
+        assertThat(addBooking.getReason()).isEqualTo("Booking Event");
+        assertThat(addBooking.getStartDate()).isEqualTo(LocalDateTime.parse(dateTime));
+        assertThat(addBooking.getEndDate()).isEqualTo(LocalDateTime.parse(dateTime));
+        assertThat(addBooking.getStatus()).isEqualTo(false);
+        assertThat(addBooking.getCreatedAt()).isEqualTo(LocalDateTime.parse(dateTime));
+        assertThat(addBooking.getUpdatedAt()).isEqualTo(LocalDateTime.parse(dateTime));
         verify(bookingRepository).save(any(Booking.class));
-    }
-
-    @Test
-    void getBooking() throws Exception {
-        // Arrange
-        String dateTime = "2022-05-25T22:04";
-        var bookingRes = new Booking(
-                "1234",
-                "Milk",
-                "milkeyway124@gmail.com",
-                "0640230334",
-                "Neon",
-                "Booking Event",
-                LocalDateTime.parse(dateTime),
-                LocalDateTime.parse(dateTime),
-                false,
-                LocalDateTime.parse(dateTime),
-                LocalDateTime.parse(dateTime)
-        );
-        var bookingId = bookingRes.getId();
-        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(bookingRes));
-        when(helpers.checkBookingDateExpired(bookingRes.getCreatedAt())).thenReturn(Boolean.FALSE);
-        // Act
-        var getBooking = bookingService.getBooking(bookingId);
-        // Assert
-        assertEquals("1234", getBooking.getId());
-        assertEquals("Milk", getBooking.getFullName());
-        assertEquals("milkeyway124@gmail.com", getBooking.getEmail());
-        assertEquals("0640230334", getBooking.getPhoneNumber());
-        assertEquals("Neon", getBooking.getRoom());
-        assertEquals("Booking Event", getBooking.getReason());
-        assertEquals(LocalDateTime.parse(dateTime), getBooking.getStartDate());
-        assertEquals(LocalDateTime.parse(dateTime), getBooking.getEndDate());
-        assertEquals(false, getBooking.getStatus());
-        assertEquals(LocalDateTime.parse(dateTime), getBooking.getCreatedAt());
-        assertEquals(LocalDateTime.parse(dateTime), getBooking.getUpdatedAt());
-        verify(bookingRepository).findById(bookingId);
-    }
-
-    @Test
-    public void getBookingThrowException() {
-        // Arrange
-        var bookingId = "1-jfd234";
-        when(bookingRepository.findById(bookingId)).thenReturn(Optional.empty());
-        // Act
-        var exception = assertThrows(Exception.class, () -> bookingService.getBooking(bookingId));
-        // Assert
-        assertTrue(exception.getMessage().contains("Booking not found with this id : " + bookingId));
-        verify(bookingRepository).findById(bookingId);
     }
 }

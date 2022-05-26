@@ -1,85 +1,62 @@
 package team.odds.booking.service;
 
 import org.springframework.stereotype.Service;
+import team.odds.booking.exception.DataNotFound;
 import team.odds.booking.model.Booking;
+import team.odds.booking.model.dto.BookingDto;
+import team.odds.booking.model.mapper.BookingMapper;
 import team.odds.booking.repository.BookingRepository;
-import team.odds.booking.util.Helpers;
+import team.odds.booking.util.HelperUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Service
-public class BookingService {
+public record BookingService(BookingRepository bookingRepository,
+                             BookingMapper bookingMapper,
+                             MailSenderService mailSenderService) {
 
-    BookingRepository bookingRepository;
-    Helpers helpers;
-
-    public BookingService(BookingRepository bookingRepository, Helpers helpers) {
-        this.bookingRepository = bookingRepository;
-        this.helpers = helpers;
-    }
-
-    public Booking getBooking(String bookingId) throws Exception {
+    public Booking getBooking(String bookingId) throws RuntimeException {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new Exception("Booking not found with this id : " + bookingId));
+                .orElseThrow(() -> new DataNotFound("Booking not found with this id : " + bookingId));
 
-        if (helpers.checkBookingDateExpired(booking.getCreatedAt())) {
+        if (HelperUtils.checkBookingDateExpired(booking.getCreatedAt())) {
             bookingRepository.deleteById(bookingId);
-            throw new Exception("Booking is expired");
+            throw new DataNotFound("Booking is expired");
         }
         return booking;
     }
 
-    public List<Booking> getBookingList() throws Exception {
-        try {
-            List<Booking> bookingList = bookingRepository.findAll();
-            if (bookingList.isEmpty()) {
-                throw new Exception("Booking not found in database");
-            } else return bookingList;
-        } catch (Exception e) {
-            throw new Exception("Some error occurred while retrieving the Bookings", e);
-        }
-    }
-
-    public Booking addBooking(Booking dataRequest) throws Exception {
-        Booking booking = new Booking();
-        booking.setFullName(dataRequest.getFullName());
-        booking.setEmail(dataRequest.getEmail());
-        booking.setPhoneNumber(dataRequest.getPhoneNumber());
-        booking.setRoom(dataRequest.getRoom());
-        booking.setReason(dataRequest.getReason());
-        booking.setStartDate(dataRequest.getStartDate());
-        booking.setEndDate(dataRequest.getEndDate());
-        booking.setStatus(false);
+    public Booking addBooking(BookingDto dataRequest) throws Exception {
+        var booking = bookingMapper.toBooking(dataRequest);
         booking.setCreatedAt(LocalDateTime.now());
         booking.setUpdatedAt(LocalDateTime.now());
 
+        var bookingRes = new Booking();
         try {
-            return bookingRepository.save(booking);
-        } catch (Exception e) {
-            throw new Exception("Some error occurred while creating booking", e);
+            bookingRes = bookingRepository.save(booking);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Some error occurred while creating booking", e);
         }
+        mailSenderService.mailToUser("https://odds-booking.odds.team/booking_detail", bookingRes);
+        return bookingRes;
     }
 
-    public Booking updateBooking(String bookingId, Booking dataRequest) throws Exception {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new Exception("Booking not found with this id : " + bookingId));
+    public Booking updateBooking(String bookingId, BookingDto dataRequest) throws Exception {
+        Booking bookingById = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new DataNotFound("Booking not found with this id : " + bookingId));
 
-        booking.setFullName(dataRequest.getFullName());
-        booking.setEmail(dataRequest.getEmail());
-        booking.setPhoneNumber(dataRequest.getPhoneNumber());
-        booking.setRoom(dataRequest.getRoom());
-        booking.setReason(dataRequest.getReason());
-        booking.setStartDate(dataRequest.getStartDate());
-        booking.setEndDate(dataRequest.getEndDate());
-        booking.setStatus(dataRequest.getStatus());
-        booking.setCreatedAt(booking.getCreatedAt());
+        var booking = bookingMapper.toBooking(dataRequest);
+        booking.setId(bookingById.getId());
+        booking.setCreatedAt(bookingById.getCreatedAt());
         booking.setUpdatedAt(LocalDateTime.now());
 
+        var bookingRes = new Booking();
         try {
-            return bookingRepository.save(booking);
-        } catch (Exception e) {
-            throw new Exception("Some error occurred while updating booking", e);
+            bookingRes = bookingRepository.save(booking);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Some error occurred while updating booking", e);
         }
+        mailSenderService.mailToOdds("https://odds-booking.odds.team/booking_detail", bookingRes);
+        return bookingRes;
     }
 }
