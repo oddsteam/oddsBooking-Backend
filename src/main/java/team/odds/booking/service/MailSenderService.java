@@ -27,7 +27,7 @@ public record MailSenderService(JavaMailSender mailSender, TemplateEngine templa
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
         mailComposeParts.setTo(booking.getEmail());
         mailComposeParts.setSubject("กรุณายืนยันอีเมล์");
-        mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
+        mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-booking"));
 
         var templateCtx = new Context(LocaleContextHolder.getLocale());
         templateCtx.setVariable("fullName", booking.getFullName());
@@ -45,9 +45,9 @@ public record MailSenderService(JavaMailSender mailSender, TemplateEngine templa
 
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
-        mailComposeParts.setTo(booking.getEmail());
+        mailComposeParts.setTo("phum.project@gmail.com");
         mailComposeParts.setSubject("รายละเอียดการจอง");
-        mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
+        mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-booking"));
 
         var templateCtx = new Context(LocaleContextHolder.getLocale());
         for (Field field : booking.getClass().getDeclaredFields()) {
