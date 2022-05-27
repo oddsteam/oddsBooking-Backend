@@ -45,7 +45,7 @@ public record MailSenderService(JavaMailSender mailSender, TemplateEngine templa
 
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
-        mailComposeParts.setTo("phum.project@gmail.com");
+        mailComposeParts.setTo("roof@odds.team");
         mailComposeParts.setSubject("รายละเอียดการจอง");
         mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-booking"));
 
