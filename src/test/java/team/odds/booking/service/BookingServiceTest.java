@@ -24,7 +24,7 @@ public class BookingServiceTest {
     @Test
     void getBooking() {
         // Arrange
-        var dateTime = "2022-05-25T22:04";
+        var dateTime = "2022-05-28T22:04";
         var booking = new Booking(
                 "1234",
                 "Milk",
