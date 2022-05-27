@@ -24,7 +24,7 @@ public class BookingServiceTest {
     @Test
     void getBooking() {
         // Arrange
-        var dateTime = "2022-05-28T22:04";
+        var dateTime = LocalDateTime.now().toString();
         var booking = new Booking(
                 "1234",
                 "Milk",
@@ -44,16 +44,7 @@ public class BookingServiceTest {
         var bookingRes = bookingService.getBooking(bookingId);
         // Assert
         assertThat(bookingRes.getId()).isEqualTo("1234");
-        assertThat(bookingRes.getFullName()).isEqualTo("Milk");
-        assertThat(bookingRes.getEmail()).isEqualTo("milkeyway124@gmail.com");
-        assertThat(bookingRes.getPhoneNumber()).isEqualTo("0640230334");
-        assertThat(bookingRes.getRoom()).isEqualTo("Neon");
-        assertThat(bookingRes.getReason()).isEqualTo("Booking Event");
-        assertThat(bookingRes.getStartDate()).isEqualTo(LocalDateTime.parse(dateTime));
-        assertThat(bookingRes.getEndDate()).isEqualTo(LocalDateTime.parse(dateTime));
         assertThat(bookingRes.getStatus()).isEqualTo(false);
-        assertThat(bookingRes.getCreatedAt()).isEqualTo(LocalDateTime.parse(dateTime));
-        assertThat(bookingRes.getUpdatedAt()).isEqualTo(LocalDateTime.parse(dateTime));
         verify(bookingRepository).findById(bookingId);
     }
 
@@ -102,16 +93,7 @@ public class BookingServiceTest {
         var addBooking = bookingService.addBooking(bookingPostDto);
         // Assert
         assertThat(addBooking.getId()).isEqualTo("1234");
-        assertThat(addBooking.getFullName()).isEqualTo("Milk");
-        assertThat(addBooking.getEmail()).isEqualTo("milkeyway124@gmail.com");
-        assertThat(addBooking.getPhoneNumber()).isEqualTo("0640230334");
-        assertThat(addBooking.getRoom()).isEqualTo("Neon");
-        assertThat(addBooking.getReason()).isEqualTo("Booking Event");
-        assertThat(addBooking.getStartDate()).isEqualTo(LocalDateTime.parse(dateTime));
-        assertThat(addBooking.getEndDate()).isEqualTo(LocalDateTime.parse(dateTime));
         assertThat(addBooking.getStatus()).isEqualTo(false);
-        assertThat(addBooking.getCreatedAt()).isEqualToIgnoringHours(LocalDateTime.now());
-        assertThat(addBooking.getUpdatedAt()).isEqualToIgnoringHours(LocalDateTime.now());
         verify(bookingRepository).save(any(Booking.class));
     }
 }
