@@ -19,7 +19,7 @@ public record BookingService(BookingRepository bookingRepository,
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new DataNotFound("Booking not found with this id : " + bookingId));
 
-        if (HelperUtils.checkBookingDateExpired(booking.getCreatedAt())) {
+        if (!booking.getStatus() && HelperUtils.checkBookingDateExpired(booking.getCreatedAt())) {
             bookingRepository.deleteById(bookingId);
             throw new DataNotFound("Booking is expired");
         }

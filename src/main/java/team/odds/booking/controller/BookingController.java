@@ -16,7 +16,7 @@ public class BookingController {
     final BookingService bookingService;
 
     @GetMapping(value = "/{bookingId}")
-    public ResponseEntity<Booking> getBooking(@PathVariable(value = "bookingId") String bookingId) throws Exception {
+    public ResponseEntity<Booking> getBooking(@PathVariable(value = "bookingId") String bookingId) {
         return new ResponseEntity<>(bookingService.getBooking(bookingId), HttpStatus.OK);
     }
 
