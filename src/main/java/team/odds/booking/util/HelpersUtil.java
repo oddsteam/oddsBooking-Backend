@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class HelperUtils {
+public class HelpersUtil {
     public static boolean checkBookingDateExpired(LocalDateTime bookingDate) {
         Duration duration = Duration.between(bookingDate, LocalDateTime.now());
         long durationDays = duration.toDays();

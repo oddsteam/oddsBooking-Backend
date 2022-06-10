@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import team.odds.booking.model.Booking;
-import team.odds.booking.util.HelperUtils;
+import team.odds.booking.util.HelpersUtil;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -21,7 +21,7 @@ public record MailSenderService(JavaMailSender mailSender, TemplateEngine templa
 
     public void mailToUser(String confirmUrl, Booking booking)
             throws MessagingException, UnsupportedEncodingException {
-        String expiryDateFormat = HelperUtils.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
+        String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
 
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
@@ -45,7 +45,7 @@ public record MailSenderService(JavaMailSender mailSender, TemplateEngine templa
 
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
-        mailComposeParts.setTo("phum.project@gmail.com");
+        mailComposeParts.setTo("roof@odds.team");
         mailComposeParts.setSubject("รายละเอียดการจอง");
         mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-booking"));
 
@@ -55,7 +55,7 @@ public record MailSenderService(JavaMailSender mailSender, TemplateEngine templa
             boolean isDateTime = field.get(booking).getClass().getSimpleName().equals("LocalDateTime");
             templateCtx.setVariable(field.getName(),
                     isDateTime ?
-                            HelperUtils.dateTimeFormatGeneral(LocalDateTime.parse((field.get(booking)).toString()))
+                            HelpersUtil.dateTimeFormatGeneral(LocalDateTime.parse((field.get(booking)).toString()))
                             : field.get(booking));
         }
         templateCtx.setVariable("bookingDetailsUrl", bookingDetailsUrl);

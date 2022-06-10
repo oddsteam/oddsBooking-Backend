@@ -6,7 +6,7 @@ import team.odds.booking.model.Booking;
 import team.odds.booking.model.dto.BookingDto;
 import team.odds.booking.model.mapper.BookingMapper;
 import team.odds.booking.repository.BookingRepository;
-import team.odds.booking.util.HelperUtils;
+import team.odds.booking.util.HelpersUtil;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ public record BookingService(BookingRepository bookingRepository,
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new DataNotFound("Booking not found with this id : " + bookingId));
 
-        if (!booking.getStatus() && HelperUtils.checkBookingDateExpired(booking.getCreatedAt())) {
+        if (!booking.getStatus() && HelpersUtil.checkBookingDateExpired(booking.getCreatedAt())) {
             bookingRepository.deleteById(bookingId);
             throw new DataNotFound("Booking is expired");
         }
