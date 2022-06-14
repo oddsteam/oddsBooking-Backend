@@ -12,7 +12,7 @@ import team.odds.booking.service.BookingService;
 @RequestMapping("/v1/booking")
 @RestController
 public class BookingController {
-    //test commit
+    //test commitq
 
     final BookingService bookingService;
 
