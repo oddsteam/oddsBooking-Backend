@@ -11,9 +11,17 @@ import team.odds.booking.util.HelpersUtil;
 import java.time.LocalDateTime;
 
 @Service
-public record BookingService(BookingRepository bookingRepository,
-                             BookingMapper bookingMapper,
-                             MailSenderService mailSenderService) {
+public class BookingService {
+
+    private final BookingRepository bookingRepository;
+    private final BookingMapper bookingMapper;
+    private final MailSenderService mailSenderService;
+
+    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, MailSenderService mailSenderService) {
+        this.bookingRepository = bookingRepository;
+        this.bookingMapper = bookingMapper;
+        this.mailSenderService = mailSenderService;
+    }
 
     public Booking getBooking(String bookingId) throws RuntimeException {
         Booking booking = bookingRepository.findById(bookingId)
@@ -37,8 +45,7 @@ public record BookingService(BookingRepository bookingRepository,
         } catch (RuntimeException e) {
             throw new RuntimeException("Some error occurred while creating booking", e);
         }
-        var confirmUrl = "https://odds-booking.odds.team/detail/" + bookingRes.getId();
-        mailSenderService.mailToUser(confirmUrl, bookingRes);
+        mailSenderService.mailToUser(bookingRes);
         return bookingRes;
     }
 
@@ -57,8 +64,7 @@ public record BookingService(BookingRepository bookingRepository,
         } catch (RuntimeException e) {
             throw new RuntimeException("Some error occurred while updating booking", e);
         }
-        var bookingDetailsUrl = "https://odds-booking.odds.team/detail/" + bookingRes.getId();
-        mailSenderService.mailToOdds(bookingDetailsUrl, bookingRes);
+        mailSenderService.mailToOdds(bookingRes);
         return bookingRes;
     }
 }
