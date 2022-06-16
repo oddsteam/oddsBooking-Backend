@@ -12,23 +12,22 @@ import team.odds.booking.service.BookingService;
 @RequestMapping("/v1/booking")
 @RestController
 public class BookingController {
-    //test commitq
 
     final BookingService bookingService;
 
     @GetMapping(value = "/{bookingId}")
     public ResponseEntity<Booking> getBooking(@PathVariable(value = "bookingId") String bookingId) {
-        return new ResponseEntity<>(bookingService.getBooking(bookingId), HttpStatus.OK);
+        return ResponseEntity.ok().body(bookingService.getBooking(bookingId));
     }
 
     @PostMapping()
     public ResponseEntity<Booking> addBooking(@RequestBody BookingDto dataRequest) throws Exception {
-        return new ResponseEntity<>(bookingService.addBooking(dataRequest), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.addBooking(dataRequest));
     }
 
     @PutMapping(value = "/{bookingId}")
     public ResponseEntity<Booking> updateBooking(@PathVariable(value = "bookingId") String bookingId, @RequestBody BookingDto dataRequest) throws Exception {
-        return new ResponseEntity<>(bookingService.updateBooking(bookingId, dataRequest), HttpStatus.OK);
+        return ResponseEntity.ok().body(bookingService.updateBooking(bookingId, dataRequest));
     }
 
 }
