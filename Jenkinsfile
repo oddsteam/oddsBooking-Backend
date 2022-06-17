@@ -10,6 +10,9 @@ pipeline{
         REGISTRY = "swr.ap-southeast-2.myhuaweicloud.com"
         TAG = "api-oddsbooking:${BRANCH_NAME}"
         API_BUILD_TAG = "${REGISTRY}/${ORGANIZATION}/${TAG}"
+        SENDGRID_API_KEY='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'
+        SENDGRID_ODDS_TEMPLATE_ID='d-c86d84c6ec274a8ca44a2d05541cba14'
+        SENDGRID_USER_TEMPLATE_ID='d-aa36a3daea924b47be7ac9e601d5b672'
 
     }
 

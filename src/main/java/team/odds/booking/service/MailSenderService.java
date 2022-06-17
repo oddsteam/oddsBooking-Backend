@@ -1,6 +1,5 @@
 package team.odds.booking.service;
 
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -16,16 +15,10 @@ import java.io.IOException;
 @Service
 public class MailSenderService {
 
-    private final Environment environment;
-
-    public MailSenderService(Environment environment) {
-        this.environment = environment;
-    }
-
     public void mailToUser(Booking booking) throws IOException {
         String expiredDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
-        String templateId = environment.getRequiredProperty("send.grid.user.template.id");
-        String sendGridToken = environment.getRequiredProperty("send.grid.token");
+        String templateId = System.getenv("SENDGRID_USER_TEMPLATE_ID");
+        String sendGridToken = System.getenv("SENDGRID_API_KEY");
 
         Mail mailCompose = new Mail();
         mailCompose.setFrom(new Email("odds.molamola@gmail.com"));
@@ -49,8 +42,8 @@ public class MailSenderService {
     }
 
     public void mailToOdds(Booking booking) throws IOException {
-        String templateId = environment.getRequiredProperty("send.grid.odds.template.id");
-        String sendGridToken = environment.getRequiredProperty("send.grid.token");
+        String templateId = System.getenv("SENDGRID_ODDS_TEMPLATE_ID");
+        String sendGridToken = System.getenv("SENDGRID_API_KEY");
 
         Mail mailCompose = new Mail();
         mailCompose.setFrom(new Email("odds.molamola@gmail.com"));
