@@ -1,73 +1,76 @@
 package team.odds.booking.service;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Email;
-import com.sendgrid.helpers.mail.objects.Personalization;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import team.odds.booking.model.Booking;
 import team.odds.booking.util.HelpersUtil;
 
-import java.io.IOException;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 
 @Service
 public class MailSenderService {
 
-    public void mailToUser(Booking booking) throws IOException {
-        String expiredDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
-        String templateId = System.getenv("SENDGRID_USER_TEMPLATE_ID");
-        String sendGridToken = System.getenv("SENDGRID_API_KEY");
+    private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
 
-        Mail mailCompose = new Mail();
-        mailCompose.setFrom(new Email("odds.molamola@gmail.com"));
-        mailCompose.setSubject("กรุณายืนยันการจอง");
+    public MailSenderService(JavaMailSender mailSender, TemplateEngine templateEngine) {
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
+    }
 
-        Personalization templateCtx = new Personalization();
-        templateCtx.addTo(new Email(booking.getEmail()));
-        templateCtx.addDynamicTemplateData("fullName", booking.getFullName());
-        templateCtx.addDynamicTemplateData("expiredDate", expiredDateFormat);
-        templateCtx.addDynamicTemplateData("id", booking.getId());
 
-        mailCompose.addPersonalization(templateCtx);
-        mailCompose.setTemplateId(templateId);
+    public void mailToUser(String confirmUrl, Booking booking) throws UnsupportedEncodingException, MessagingException {
+        String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
 
-        Request request = new Request();
-        request.setMethod(Method.POST);
-        request.setEndpoint("mail/send");
-        request.setBody(mailCompose.build());
-        new SendGrid(sendGridToken).api(request);
+        MimeMessage mailCompose = this.mailSender.createMimeMessage();
+        var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
+        mailComposeParts.setTo(booking.getEmail());
+        mailComposeParts.setSubject("กรุณายืนยันอีเมล์");
+        mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
+
+        var templateCtx = new Context(LocaleContextHolder.getLocale());
+        templateCtx.setVariable("fullName", booking.getFullName());
+        templateCtx.setVariable("expiryDate", expiryDateFormat);
+        templateCtx.setVariable("confirmUrl", confirmUrl);
+
+        String mailContent = this.templateEngine.process("user_confirm", templateCtx);
+        mailComposeParts.setText(mailContent, true);
+
+        mailSender.send(mailCompose);
 
     }
 
-    public void mailToOdds(Booking booking) throws IOException {
-        String templateId = System.getenv("SENDGRID_ODDS_TEMPLATE_ID");
-        String sendGridToken = System.getenv("SENDGRID_API_KEY");
+    public void mailToOdds(String bookingDetailsUrl,Booking booking) throws MessagingException, UnsupportedEncodingException, IllegalAccessException {
+        MimeMessage mailCompose = this.mailSender.createMimeMessage();
+        var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
+        mailComposeParts.setTo("roof@odds.team");
+        mailComposeParts.setSubject("รายละเอียดการจอง");
+        mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
 
-        Mail mailCompose = new Mail();
-        mailCompose.setFrom(new Email("odds.molamola@gmail.com"));
-        mailCompose.setSubject("รายละเอียดการจอง");
+        var templateCtx = new Context(LocaleContextHolder.getLocale());
+        for (Field field : booking.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            boolean isDateTime = field.get(booking).getClass().getSimpleName().equals("LocalDateTime");
+            templateCtx.setVariable(field.getName(),
+                    isDateTime ?
+                            HelpersUtil.dateTimeFormatGeneral(LocalDateTime.parse((field.get(booking)).toString()))
+                            : field.get(booking));
+        }
+        templateCtx.setVariable("bookingDetailsUrl", bookingDetailsUrl);
 
-        Personalization templateCtx = new Personalization();
-        templateCtx.addTo(new Email("dome@odds.team"));
-        templateCtx.addDynamicTemplateData("id", booking.getId());
-        templateCtx.addDynamicTemplateData("fullName", booking.getFullName());
-        templateCtx.addDynamicTemplateData("email", booking.getEmail());
-        templateCtx.addDynamicTemplateData("phoneNumber", booking.getPhoneNumber());
-        templateCtx.addDynamicTemplateData("room", booking.getRoom());
-        templateCtx.addDynamicTemplateData("reason", booking.getReason());
-        templateCtx.addDynamicTemplateData("startDate", HelpersUtil.dateTimeFormatGeneral(booking.getStartDate()));
-        templateCtx.addDynamicTemplateData("endDate", HelpersUtil.dateTimeFormatGeneral(booking.getEndDate()));
+        String mailContent = this.templateEngine.process("odds_confirm", templateCtx);
+        mailComposeParts.setText(mailContent, true);
 
-        mailCompose.addPersonalization(templateCtx);
-        mailCompose.setTemplateId(templateId);
-
-        Request request = new Request();
-        request.setMethod(Method.POST);
-        request.setEndpoint("mail/send");
-        request.setBody(mailCompose.build());
-        new SendGrid(sendGridToken).api(request);
+        mailSender.send(mailCompose);
 
     }
 }

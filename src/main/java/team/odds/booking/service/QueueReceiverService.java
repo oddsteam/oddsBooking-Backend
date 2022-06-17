@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import team.odds.booking.repository.BookingRepository;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -17,14 +18,15 @@ public class QueueReceiverService {
     private final MailSenderService mailSenderService;
 
     @RabbitListener(queues = "odds-booking-message")
-    public void receiveMessage(String message) throws IOException {
+    public void receiveMessage(String message) throws IOException, MessagingException, IllegalAccessException {
         var bookingOpt = bookingRepository.findById(message);
         if (bookingOpt.isPresent()) {
             var booking = bookingOpt.get();
+            var confirmUrl = "https://odds-booking.odds.team/booking_detail/" + message;
             if (booking.getStatus())
-                mailSenderService.mailToOdds(booking);
+                mailSenderService.mailToOdds(confirmUrl, booking);
             else
-                mailSenderService.mailToUser(booking);
+                mailSenderService.mailToUser(confirmUrl, booking);
         } else {
             log.warn("Booking not found : message = {}", message);
         }
