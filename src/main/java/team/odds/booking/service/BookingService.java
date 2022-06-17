@@ -15,12 +15,12 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
-    private final MailSenderService mailSenderService;
+    private final QueueProducerService queueProducerService;
 
-    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, MailSenderService mailSenderService) {
+    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, QueueProducerService queueProducerService) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
-        this.mailSenderService = mailSenderService;
+        this.queueProducerService = queueProducerService;
     }
 
     public Booking getBooking(String bookingId) throws RuntimeException {
@@ -34,7 +34,7 @@ public class BookingService {
         return booking;
     }
 
-    public Booking addBooking(BookingDto dataRequest) throws Exception {
+    public Booking addBooking(BookingDto dataRequest) {
         var booking = bookingMapper.toBooking(dataRequest);
         booking.setCreatedAt(LocalDateTime.now());
         booking.setUpdatedAt(LocalDateTime.now());
@@ -45,11 +45,11 @@ public class BookingService {
         } catch (RuntimeException e) {
             throw new RuntimeException("Some error occurred while creating booking", e);
         }
-        mailSenderService.mailToUser(bookingRes);
+        queueProducerService.sendMessage(bookingRes.getId());
         return bookingRes;
     }
 
-    public Booking updateBooking(String bookingId, BookingDto dataRequest) throws Exception {
+    public Booking updateBooking(String bookingId, BookingDto dataRequest) {
         Booking bookingById = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new DataNotFound("Booking not found with this id : " + bookingId));
 
@@ -64,7 +64,7 @@ public class BookingService {
         } catch (RuntimeException e) {
             throw new RuntimeException("Some error occurred while updating booking", e);
         }
-        mailSenderService.mailToOdds(bookingRes);
+        queueProducerService.sendMessage(bookingRes.getId());
         return bookingRes;
     }
 }

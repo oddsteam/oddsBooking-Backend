@@ -10,6 +10,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
 import team.odds.booking.model.Booking;
 import team.odds.booking.util.HelpersUtil;
+
 import java.io.IOException;
 
 @Service
@@ -40,14 +41,11 @@ public class MailSenderService {
         mailCompose.setTemplateId(templateId);
 
         Request request = new Request();
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mailCompose.build());
-            new SendGrid(sendGridToken).api(request);
-        } catch (IOException ex) {
-            throw new IOException(ex);
-        }
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mailCompose.build());
+        new SendGrid(sendGridToken).api(request);
+
     }
 
     public void mailToOdds(Booking booking) throws IOException {
@@ -73,13 +71,10 @@ public class MailSenderService {
         mailCompose.setTemplateId(templateId);
 
         Request request = new Request();
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mailCompose.build());
-            new SendGrid(sendGridToken).api(request);
-        } catch (IOException ex) {
-            throw new IOException(ex);
-        }
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mailCompose.build());
+        new SendGrid(sendGridToken).api(request);
+
     }
 }

@@ -12,6 +12,15 @@ services:
     ports:
       - 8081:8080
     restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 networks:
   default:
     name: oddsbooking-network

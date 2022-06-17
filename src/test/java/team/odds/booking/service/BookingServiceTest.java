@@ -17,9 +17,9 @@ import static org.mockito.Mockito.verify;
 
 public class BookingServiceTest {
     BookingRepository bookingRepository = mock(BookingRepository.class);
-    MailSenderService mailSenderService = mock(MailSenderService.class);
     BookingMapper bookingMapper = mock(BookingMapper.class);
-    BookingService bookingService = new BookingService(bookingRepository, bookingMapper, mailSenderService);
+    QueueProducerService queueProducerService = mock(QueueProducerService.class);
+    BookingService bookingService = new BookingService(bookingRepository, bookingMapper, queueProducerService);
 
     @Test
     void getBooking() {
@@ -61,7 +61,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void addBooking() throws Exception {
+    void addBooking() {
         // Arrange
         var dateTime = "2020-08-21T04:21";
         var bookingPostDto = new BookingDto(
