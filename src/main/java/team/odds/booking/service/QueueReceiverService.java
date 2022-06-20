@@ -22,7 +22,7 @@ public class QueueReceiverService {
         var bookingOpt = bookingRepository.findById(message);
         if (bookingOpt.isPresent()) {
             var booking = bookingOpt.get();
-            var confirmUrl = "https://odds-booking.odds.team/booking_detail/" + message;
+            var confirmUrl = "https://odds-booking.odds.team/detail/" + message;
             if (booking.getStatus())
                 mailSenderService.mailToOdds(confirmUrl, booking);
             else
