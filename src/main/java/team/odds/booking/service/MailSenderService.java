@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import sibApi.TransactionalEmailsApi;
 import team.odds.booking.model.Booking;
 import team.odds.booking.util.HelpersUtil;
 
@@ -15,6 +16,14 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+
+import sendinblue.*;
+import sendinblue.auth.*;
+import sibModel.*;
+import sibApi.AccountApi;
+
+import java.io.File;
+import java.util.*;
 
 @Service
 public class MailSenderService {
@@ -73,4 +82,6 @@ public class MailSenderService {
         mailSender.send(mailCompose);
 
     }
+
+
 }

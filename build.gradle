@@ -31,6 +31,7 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mockito:mockito-inline:4.6.1'
+	implementation "com.sendinblue:sib-api-v3-sdk:6.0.0"
 }
 
 tasks.named('test') {
