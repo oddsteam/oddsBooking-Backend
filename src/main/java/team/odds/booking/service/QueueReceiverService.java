@@ -26,7 +26,7 @@ public class QueueReceiverService {
         if (bookingOpt.isPresent()) {
             var booking = bookingOpt.get();
             var confirmUrl = "https://odds-booking.odds.team/detail/" + message;
-            if (booking.getStatus())
+            if (Boolean.TRUE.equals(booking.getStatus()))
                 //mailSenderService.mailToOdds(confirmUrl, booking);
                 mailSendinblueService.mailToOdds(booking);
             else
