@@ -1,12 +1,12 @@
 package team.odds.booking.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import sibApi.TransactionalEmailsApi;
 import team.odds.booking.model.Booking;
 import team.odds.booking.util.HelpersUtil;
 
@@ -17,28 +17,16 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 
-import sendinblue.*;
-import sendinblue.auth.*;
-import sibModel.*;
-import sibApi.AccountApi;
-
-import java.io.File;
-import java.util.*;
-
 @Service
+@RequiredArgsConstructor
 public class MailSenderService {
 
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
 
-    public MailSenderService(JavaMailSender mailSender, TemplateEngine templateEngine) {
-        this.mailSender = mailSender;
-        this.templateEngine = templateEngine;
-    }
-
-
-    public void mailToUser(String confirmUrl, Booking booking) throws UnsupportedEncodingException, MessagingException {
+    public void mailToUser(Booking booking) throws MessagingException, UnsupportedEncodingException {
         String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
+        var confirmUrl = "https://odds-booking.odds.team/detail/" + booking.getId();
 
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
@@ -58,7 +46,8 @@ public class MailSenderService {
 
     }
 
-    public void mailToOdds(String bookingDetailsUrl,Booking booking) throws MessagingException, UnsupportedEncodingException, IllegalAccessException {
+    public void mailToOdds(Booking booking) throws MessagingException, UnsupportedEncodingException, IllegalAccessException {
+        var  bookingDetailsUrl = "https://odds-booking.odds.team/detail/" + booking.getId();
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
         mailComposeParts.setTo("roof@odds.team");
@@ -80,8 +69,6 @@ public class MailSenderService {
         mailComposeParts.setText(mailContent, true);
 
         mailSender.send(mailCompose);
-
     }
-
 
 }

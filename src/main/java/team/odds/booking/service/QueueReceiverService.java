@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
-import sendinblue.ApiException;
 import team.odds.booking.repository.BookingRepository;
 
 import javax.mail.MessagingException;
@@ -17,7 +16,6 @@ public class QueueReceiverService {
 
     private final BookingRepository bookingRepository;
     private final MailSenderService mailSenderService;
-
     private final MailSendinblueService mailSendinblueService;
 
     @RabbitListener(queues = "odds-booking-message")
@@ -25,13 +23,11 @@ public class QueueReceiverService {
         var bookingOpt = bookingRepository.findById(message);
         if (bookingOpt.isPresent()) {
             var booking = bookingOpt.get();
-            var confirmUrl = "https://odds-booking.odds.team/detail/" + message;
-            if (Boolean.TRUE.equals(booking.getStatus()))
-                //mailSenderService.mailToOdds(confirmUrl, booking);
-                mailSendinblueService.mailToOdds(booking);
-            else
-                //mailSenderService.mailToUser(confirmUrl, booking);
-                mailSendinblueService.mailToUser(booking);
+            if (Boolean.TRUE.equals(booking.getStatus())) {
+                if (!mailSendinblueService.mailToOdds(booking)) mailSenderService.mailToOdds(booking);
+            } else {
+                if (!mailSendinblueService.mailToUser(booking)) mailSenderService.mailToUser(booking);
+            }
         } else {
             log.warn("Booking not found : message = {}", message);
         }

@@ -1,7 +1,6 @@
 package team.odds.booking.service;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import team.odds.booking.constants.MailSender;
 import team.odds.booking.model.Booking;
 
 import org.springframework.stereotype.Service;
@@ -12,13 +11,12 @@ import sendinblue.auth.*;
 import sibModel.*;
 import sibApi.AccountApi;
 
-import java.io.File;
 import java.util.*;
 
 @Service
-public class MailSendinblueService implements MailSender {
+public class MailSendinblueService {
 
-    @Override
+
     public boolean mailToUser(Booking booking) {
             ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -65,10 +63,9 @@ public class MailSendinblueService implements MailSender {
             } catch (ApiException e) {
                 System.err.println("Exception when calling AccountApi#getAccount");
             }
-        return true;
+        return false;
     }
 
-    @Override
     public boolean mailToOdds(Booking booking) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
 
@@ -112,6 +109,6 @@ public class MailSendinblueService implements MailSender {
         } catch (ApiException e) {
             System.err.println("Exception when calling AccountApi#getAccount");
         }
-        return true;
+        return false;
     }
 }
