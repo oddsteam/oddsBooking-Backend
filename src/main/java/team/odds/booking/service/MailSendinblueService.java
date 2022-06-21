@@ -24,10 +24,7 @@ public class MailSendinblueService implements MailSender {
 
             // Configure API key authorization: api-key
             ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-            Dotenv dotenv = Dotenv
-                            .configure()
-                            .directory("/var/jenkins_home/jobs/odd-booking-android/branches/dev/workspace")
-                            .load();
+            Dotenv dotenv = Dotenv.load();
             apiKey.setApiKey(dotenv.get("SENDINBLUE_TOKEN"));
             System.out.println(dotenv.get("SENDINBLUE_TOKEN"));
             // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
