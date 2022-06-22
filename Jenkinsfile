@@ -35,8 +35,8 @@ pipeline{
         stage("deploy"){
             steps{
                 sh  """
-                        withCredentials([file(credentialsId: 'SB_TOKEN', variable: 'sendinblue-token')]) {
-                           sh "cp $sendinblue-token /src/main/resources/sendinblue-token"
+                        withCredentials([file(credentialsId: 'SB_TOKEN', variable: 'sendinblue')]) {
+                           sh "cp $sendinblue /src/main/resources/sendinblue"
                         }
                         scp docker-compose.yml oddsbooking@159.138.240.167:./docker-compose.yml
                         scp deploy-script.sh oddsbooking@159.138.240.167:./deploy-script.sh
