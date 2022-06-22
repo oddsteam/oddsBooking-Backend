@@ -12,6 +12,7 @@ import sendinblue.*;
 import sendinblue.auth.*;
 import sibModel.*;
 import sibApi.AccountApi;
+import team.odds.booking.util.HelpersUtil;
 
 import java.util.*;
 
@@ -21,7 +22,7 @@ public class MailSendinblueService {
 
     public boolean mailToUser(Booking booking) {
             ApiClient defaultClient = Configuration.getDefaultApiClient();
-
+            String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
             // Configure API key authorization: api-key
             ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
             apiKey.setApiKey(environment.getProperty("sendinblue.token"));
@@ -46,6 +47,11 @@ public class MailSendinblueService {
             sendSmtpEmailReplyTo.setEmail("odds.molamola@gmail.com");
             sendSmtpEmailReplyTo.setName("Odds Booking");
 
+            Properties params = new Properties();
+            params.setProperty("fullName", booking.getFullName());
+            params.setProperty("expiredDate", expiryDateFormat);
+            params.setProperty("id", booking.getId());
+
             SendSmtpEmailTo sendSmtpEmailTo = new SendSmtpEmailTo();
             sendSmtpEmailTo.setEmail(booking.getEmail());
             sendSmtpEmailTo.setName(booking.getFullName());
@@ -54,7 +60,8 @@ public class MailSendinblueService {
             sendSmtpEmail.sender(sendSmtpEmailSender);
             sendSmtpEmail.replyTo(sendSmtpEmailReplyTo);
             sendSmtpEmail.to(Arrays.asList(sendSmtpEmailTo));
-            sendSmtpEmail.templateId(1L);
+            sendSmtpEmail.setParams(params);
+            sendSmtpEmail.templateId(7L);
 
             try {
                 GetAccount result = apiInstance.getAccount();
@@ -69,7 +76,8 @@ public class MailSendinblueService {
 
     public boolean mailToOdds(Booking booking) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-
+        String startDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getStartDate());
+        String endDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getEndDate());
         // Configure API key authorization: api-key
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
         Dotenv dotenv = Dotenv.load();
@@ -98,11 +106,22 @@ public class MailSendinblueService {
         sendSmtpEmailTo.setEmail("phum.project@gmail.com");
         sendSmtpEmailTo.setName("Professional ROV player P'Roof");
 
+        Properties params = new Properties();
+        params.setProperty("fullName", booking.getFullName());
+        params.setProperty("email", booking.getEmail());
+        params.setProperty("phoneNumber", booking.getPhoneNumber());
+        params.setProperty("room", booking.getRoom());
+        params.setProperty("reason", booking.getReason());
+        params.setProperty("startDate", startDateFormat);
+        params.setProperty("endDate", endDateFormat);
+        params.setProperty("id", booking.getId());
+
         SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
         sendSmtpEmail.sender(sendSmtpEmailSender);
         sendSmtpEmail.replyTo(sendSmtpEmailReplyTo);
         sendSmtpEmail.to(Arrays.asList(sendSmtpEmailTo));
-        sendSmtpEmail.templateId(6L);
+        sendSmtpEmail.setParams(params);
+        sendSmtpEmail.templateId(8L);
 
         try {
             CreateSmtpEmail result2 = api.sendTransacEmail(sendSmtpEmail);
