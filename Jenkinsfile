@@ -34,20 +34,19 @@ pipeline{
         }
         stage("deploy"){
             steps{
-                sh  """
-                        withCredentials([file(credentialsId: 'SB_TOKEN', variable: 'SENDINBLUE_TOKEN')]) {
-                           sh "cp $SENDINBLUE_TOKEN /src/main/resources/SENDINBLUE_TOKEN"
-                        }
-                        scp docker-compose.yml oddsbooking@159.138.240.167:./docker-compose.yml
-                        scp deploy-script.sh oddsbooking@159.138.240.167:./deploy-script.sh
-                        ssh -oStrictHostKeyChecking=no -t oddsbooking@159.138.240.167 \"
-                            chmod +x deploy-script.sh
-                            REGISTRY=${REGISTRY} \
-                            BRANCH_NAME=${BRANCH_NAME} \
-                            ./deploy-script.sh
-                        \"
-
+                withCredentials([string(credentialsId: 'SB_TOKEN', variable: 'SENDINBLUE_TOKEN')]) {
+                    sh """
+                       scp docker-compose.yml oddsbooking@159.138.240.167:./docker-compose.yml
+                       scp deploy-script.sh oddsbooking@159.138.240.167:./deploy-script.sh
+                       ssh -oStrictHostKeyChecking=no -t oddsbooking@159.138.240.167 \"
+                           chmod +x deploy-script.sh
+                           REGISTRY=${REGISTRY} \
+                           BRANCH_NAME=${BRANCH_NAME} \
+                           SENDINBLUE_TOKEN_JENKINS=${SENDINBLUE_TOKEN} \
+                           ./deploy-script.sh
+                       \"
                     """
+                }
             }
         }
     }

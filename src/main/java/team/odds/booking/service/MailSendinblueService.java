@@ -1,6 +1,8 @@
 package team.odds.booking.service;
 
+
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.core.env.Environment;
 import team.odds.booking.model.Booking;
 
 import org.springframework.stereotype.Service;
@@ -15,16 +17,15 @@ import java.util.*;
 
 @Service
 public class MailSendinblueService {
-
+    private Environment environment;
 
     public boolean mailToUser(Booking booking) {
             ApiClient defaultClient = Configuration.getDefaultApiClient();
 
             // Configure API key authorization: api-key
             ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-            Dotenv dotenv = Dotenv.load();
-            apiKey.setApiKey(dotenv.get("SENDINBLUE_TOKEN"));
-            System.out.println(dotenv.get("SENDINBLUE_TOKEN"));
+            apiKey.setApiKey(environment.getProperty("sendinblue.token"));
+            System.out.println(environment.getProperty("sendinblue.token"));
             // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
             //apiKey.setApiKeyPrefix("Token");
 

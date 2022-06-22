@@ -12,12 +12,11 @@ services:
     ports:
       - 8081:8080
     restart: always
-    env_file:
-      - SENDINBLUE_TOKEN
     depends_on:
       - rabbitmq
     environment:
       - SPRING_RABBITMQ_HOST=rabbitmq
+      - SENDINBLUE_TOKEN=${SENDINBLUE_TOKEN_JENKINS}
   rabbitmq:
     image: rabbitmq:management
     ports:
