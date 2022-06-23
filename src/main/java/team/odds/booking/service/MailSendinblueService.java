@@ -1,134 +1,114 @@
 package team.odds.booking.service;
 
-
-import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.core.env.Environment;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import org.springframework.beans.factory.annotation.Value;
 import team.odds.booking.model.Booking;
-
 import org.springframework.stereotype.Service;
 import sibApi.TransactionalEmailsApi;
+
+import java.io.IOException;
+import java.util.*;
 
 import sendinblue.*;
 import sendinblue.auth.*;
 import sibModel.*;
-import sibApi.AccountApi;
 import team.odds.booking.util.HelpersUtil;
-
-import java.util.*;
 
 @Service
 public class MailSendinblueService {
-    private Environment environment;
 
-    public boolean mailToUser(Booking booking) {
-            ApiClient defaultClient = Configuration.getDefaultApiClient();
-            String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
-            // Configure API key authorization: api-key
-            ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-            apiKey.setApiKey(environment.getProperty("sendinblue.token"));
-            System.out.println(environment.getProperty("sendinblue.token"));
-            // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-            //apiKey.setApiKeyPrefix("Token");
+    @Value("${sendinblue.token}")
+    private String sendinblueToken;
 
-            // Configure API key authorization: partner-key
-            ApiKeyAuth partnerKey = (ApiKeyAuth) defaultClient.getAuthentication("partner-key");
-            partnerKey.setApiKey("YOUR PARTNER KEY");
-            // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-            partnerKey.setApiKeyPrefix("Token");
+    public void mailToUser(Booking booking) throws IOException {
+        String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
 
-            AccountApi apiInstance = new AccountApi();
-            TransactionalEmailsApi api = new TransactionalEmailsApi();
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
+        apiKey.setApiKey(sendinblueToken);
 
-            SendSmtpEmailSender sendSmtpEmailSender = new SendSmtpEmailSender();
-            sendSmtpEmailSender.setEmail("odds.molamola@gmail.com");
-            sendSmtpEmailSender.setName("Odds Booking");
+        var sendFrom = new SendSmtpEmailSender();
+        sendFrom.setEmail("odds.molamola@gmail.com");
+        sendFrom.setName("Odds Booking");
 
-            SendSmtpEmailReplyTo sendSmtpEmailReplyTo = new SendSmtpEmailReplyTo();
-            sendSmtpEmailReplyTo.setEmail("odds.molamola@gmail.com");
-            sendSmtpEmailReplyTo.setName("Odds Booking");
+        var sendTo = new SendSmtpEmailTo();
+        sendTo.setEmail(booking.getEmail());
+        sendTo.setName(booking.getFullName());
 
-            Properties params = new Properties();
-            params.setProperty("fullName", booking.getFullName());
-            params.setProperty("expiredDate", expiryDateFormat);
-            params.setProperty("id", booking.getId());
+        var replyTo = new SendSmtpEmailReplyTo();
+        replyTo.setEmail("odds.molamola@gmail.com");
+        replyTo.setName("Odds Booking");
 
-            SendSmtpEmailTo sendSmtpEmailTo = new SendSmtpEmailTo();
-            sendSmtpEmailTo.setEmail(booking.getEmail());
-            sendSmtpEmailTo.setName(booking.getFullName());
+        var templateCtx = new Properties();
+        templateCtx.setProperty("fullName", booking.getFullName());
+        templateCtx.setProperty("expiredDate", expiryDateFormat);
+        templateCtx.setProperty("id", booking.getId());
 
-            SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
-            sendSmtpEmail.sender(sendSmtpEmailSender);
-            sendSmtpEmail.replyTo(sendSmtpEmailReplyTo);
-            sendSmtpEmail.to(Arrays.asList(sendSmtpEmailTo));
-            sendSmtpEmail.setParams(params);
-            sendSmtpEmail.templateId(7L);
+        var mailCompose = new SendSmtpEmail();
+        mailCompose.sender(sendFrom);
+        mailCompose.replyTo(replyTo);
+        mailCompose.to(List.of(sendTo));
+        mailCompose.setParams(templateCtx);
+        mailCompose.templateId(7L);
 
-            try {
-                GetAccount result = apiInstance.getAccount();
-                System.out.println(result);
-                CreateSmtpEmail result2 = api.sendTransacEmail(sendSmtpEmail);
-                System.out.println(result2);
-            } catch (ApiException e) {
-                System.err.println("Exception when calling AccountApi#getAccount");
-            }
-        return false;
+        var api = new TransactionalEmailsApi();
+        var messageId = "";
+        try {
+            CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
+            messageId = res.getMessageId();
+        } catch (ApiException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(messageId);
     }
 
-    public boolean mailToOdds(Booking booking) {
+    public void mailToOdds(Booking booking) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         String startDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getStartDate());
         String endDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getEndDate());
-        // Configure API key authorization: api-key
+
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-        Dotenv dotenv = Dotenv.load();
-        apiKey.setApiKey(dotenv.get("SENDINBLUE_TOKEN"));
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //apiKey.setApiKeyPrefix("Token");
+        apiKey.setApiKey(sendinblueToken);
 
-        // Configure API key authorization: partner-key
-        ApiKeyAuth partnerKey = (ApiKeyAuth) defaultClient.getAuthentication("partner-key");
-        partnerKey.setApiKey("YOUR PARTNER KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        partnerKey.setApiKeyPrefix("Token");
+        var sendFrom = new SendSmtpEmailSender();
+        sendFrom.setEmail("odds.molamola@gmail.com");
+        sendFrom.setName("Odds Booking");
 
-        AccountApi apiInstance = new AccountApi();
-        TransactionalEmailsApi api = new TransactionalEmailsApi();
+        SendSmtpEmailTo sendTo = new SendSmtpEmailTo();
+        sendTo.setEmail("phum.project@gmail.com");
+        sendTo.setName("Professional ROV player P'Roof");
 
-        SendSmtpEmailSender sendSmtpEmailSender = new SendSmtpEmailSender();
-        sendSmtpEmailSender.setEmail("odds.molamola@gmail.com");
-        sendSmtpEmailSender.setName("Odds Booking");
+        var replyTo = new SendSmtpEmailReplyTo();
+        replyTo.setEmail("odds.molamola@gmail.com");
+        replyTo.setName("Odds Booking");
 
-        SendSmtpEmailReplyTo sendSmtpEmailReplyTo = new SendSmtpEmailReplyTo();
-        sendSmtpEmailReplyTo.setEmail("odds.molamola@gmail.com");
-        sendSmtpEmailReplyTo.setName("Odds Booking");
+        var templateCtx = new Properties();
+        templateCtx.setProperty("id", booking.getId());
+        templateCtx.setProperty("fullName", booking.getFullName());
+        templateCtx.setProperty("email", booking.getEmail());
+        templateCtx.setProperty("phoneNumber", booking.getPhoneNumber());
+        templateCtx.setProperty("room", booking.getRoom());
+        templateCtx.setProperty("reason", booking.getReason());
+        templateCtx.setProperty("startDate", startDateFormat);
+        templateCtx.setProperty("endDate", endDateFormat);
 
-        SendSmtpEmailTo sendSmtpEmailTo = new SendSmtpEmailTo();
-        sendSmtpEmailTo.setEmail("phum.project@gmail.com");
-        sendSmtpEmailTo.setName("Professional ROV player P'Roof");
+        var mailCompose = new SendSmtpEmail();
+        mailCompose.sender(sendFrom);
+        mailCompose.replyTo(replyTo);
+        mailCompose.to(List.of(sendTo));
+        mailCompose.setParams(templateCtx);
+        mailCompose.templateId(8L);
 
-        Properties params = new Properties();
-        params.setProperty("fullName", booking.getFullName());
-        params.setProperty("email", booking.getEmail());
-        params.setProperty("phoneNumber", booking.getPhoneNumber());
-        params.setProperty("room", booking.getRoom());
-        params.setProperty("reason", booking.getReason());
-        params.setProperty("startDate", startDateFormat);
-        params.setProperty("endDate", endDateFormat);
-        params.setProperty("id", booking.getId());
-
-        SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
-        sendSmtpEmail.sender(sendSmtpEmailSender);
-        sendSmtpEmail.replyTo(sendSmtpEmailReplyTo);
-        sendSmtpEmail.to(Arrays.asList(sendSmtpEmailTo));
-        sendSmtpEmail.setParams(params);
-        sendSmtpEmail.templateId(8L);
-
+        var api = new TransactionalEmailsApi();
+        var messageId = "";
         try {
-            CreateSmtpEmail result2 = api.sendTransacEmail(sendSmtpEmail);
-            System.out.println(result2);
+            CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
+            messageId = res.getMessageId();
         } catch (ApiException e) {
-            System.err.println("Exception when calling AccountApi#getAccount");
+            System.out.println(e.getMessage());
         }
-        return false;
+        System.out.println(messageId);
     }
 }

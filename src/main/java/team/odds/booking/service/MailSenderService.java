@@ -2,11 +2,9 @@ package team.odds.booking.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.threeten.bp.format.DateTimeFormatter;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import team.odds.booking.model.Booking;
@@ -17,14 +15,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class MailTrapService {
+public class MailSenderService {
 
     private final JavaMailSender mailSender;
-
     private final TemplateEngine templateEngine;
 
     public void mailToUser(Booking booking) throws MessagingException, UnsupportedEncodingException {
@@ -35,26 +31,25 @@ public class MailTrapService {
         mailComposeParts.setSubject("กรุณายืนยันอีเมลล์");
         mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
 
-        var templateCTX = new Context(LocaleContextHolder.getLocale());
-        templateCTX.setVariable("fullName", booking.getFullName());
-        templateCTX.setVariable("expiryDate", expireDateFormat);
-        templateCTX.setVariable("id", booking.getId());
+        var templateCtx = new Context(LocaleContextHolder.getLocale());
+        templateCtx.setVariable("id", booking.getId());
+        templateCtx.setVariable("fullName", booking.getFullName());
+        templateCtx.setVariable("expiryDate", expireDateFormat);
 
-        String mailContent = this.templateEngine.process("user_confirm", templateCTX);
+        String mailContent = this.templateEngine.process("user_confirm", templateCtx);
         mailComposeParts.setText(mailContent, true);
-
         mailSender.send(mailCompose);
-
     }
 
     public void mailToOdds(Booking booking) throws MessagingException, UnsupportedEncodingException {
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
-        mailComposeParts.setTo("roof@odds.team");
+        mailComposeParts.setTo("dome@odds.team");
         mailComposeParts.setSubject("รายละเอียดการจอง");
         mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
 
         var templateCTX = new Context(LocaleContextHolder.getLocale());
+        templateCTX.setVariable("id", booking.getId());
         templateCTX.setVariable("fullName", booking.getFullName());
         templateCTX.setVariable("email", booking.getEmail());
         templateCTX.setVariable("phoneNumber", booking.getPhoneNumber());
@@ -63,12 +58,8 @@ public class MailTrapService {
         templateCTX.setVariable("startDate",HelpersUtil.dateTimeFormatGeneral(booking.getStartDate()));
         templateCTX.setVariable("endDate", HelpersUtil.dateTimeFormatGeneral(booking.getEndDate()));
 
-        templateCTX.setVariable("id", booking.getId());
-
         String mailContent = this.templateEngine.process("odds_confirm", templateCTX);
         mailComposeParts.setText(mailContent, true);
-
         mailSender.send(mailCompose);
-
     }
 }

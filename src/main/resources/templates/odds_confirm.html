@@ -1,476 +1,104 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-  <!--[if !mso]><!-->
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <!--<![endif]-->
-  <!--[if (gte mso 9)|(IE)]>
-  <xml>
-    <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-  </xml>
-  <![endif]-->
-  <!--[if (gte mso 9)|(IE)]>
-  <style type="text/css">
-    body {width: 600px;margin: 0 auto;}
-    table {border-collapse: collapse;}
-    table, td {mso-table-lspace: 0pt;mso-table-rspace: 0pt;}
-    img {-ms-interpolation-mode: bicubic;}
-  </style>
-  <![endif]-->
-  <style type="text/css">
-    body, p, div {
-      font-family: inherit;
-      font-size: 18px;
-    }
-    body {
-      color: #000000;
-    }
-    body a {
-      color: #1188E6;
-      text-decoration: none;
-    }
-    p { margin: 0; padding: 0; }
-    table.wrapper {
-      width:100% !important;
-      table-layout: fixed;
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: 100%;
-      -moz-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-    img.max-width {
-      max-width: 100% !important;
-    }
-    .column.of-2 {
-      width: 50%;
-    }
-    .column.of-3 {
-      width: 33.333%;
-    }
-    .column.of-4 {
-      width: 25%;
-    }
-    ul ul ul ul  {
-      list-style-type: disc !important;
-    }
-    ol ol {
-      list-style-type: lower-roman !important;
-    }
-    ol ol ol {
-      list-style-type: lower-latin !important;
-    }
-    ol ol ol ol {
-      list-style-type: decimal !important;
-    }
-    @media screen and (max-width:480px) {
-      .preheader .rightColumnContent,
-      .footer .rightColumnContent {
-        text-align: left !important;
-      }
-      .preheader .rightColumnContent div,
-      .preheader .rightColumnContent span,
-      .footer .rightColumnContent div,
-      .footer .rightColumnContent span {
-        text-align: left !important;
-      }
-      .preheader .rightColumnContent,
-      .preheader .leftColumnContent {
-        font-size: 80% !important;
-        padding: 5px 0;
-      }
-      table.wrapper-mobile {
-        width: 100% !important;
-        table-layout: fixed;
-      }
-      img.max-width {
-        height: auto !important;
-        max-width: 100% !important;
-      }
-      a.bulletproof-button {
-        display: block !important;
-        width: auto !important;
-        font-size: 80%;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-      }
-      .columns {
-        width: 100% !important;
-      }
-      .column {
-        display: block !important;
-        width: 100% !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-      }
-      .social-icon-column {
-        display: inline-block !important;
-      }
-    }
-  </style>
+  <title th:remove="all">Registration confirmation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <style>
-      @media screen and (max-width:480px) {
-        table\0 {
-          width: 480px !important;
-          }
-      }
+    body {
+      font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    }
+    .button {
+      border: none;
+      border-radius: 10px;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .button1 {
+      background-color: #4CAF50;
+    }
+    tr, td {
+      border-radius: 10px;
+    }
+    hr.new5 {
+      border: 1.5px solid black;
+      border-radius: 5px;
+    }
     </style>
-  <!--user entered Head Start--><link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet"><style>
-body {font-family: 'Poppins', sans-serif;}
-</style><!--End Head user entered-->
 </head>
 <body>
-<center class="wrapper" data-link-color="#1188E6" data-body-style="font-size:18px; font-family:inherit; color:#000000; background-color:#d9d9d9;">
-  <div class="webkit">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#d9d9d9">
-      <tr>
-        <td valign="top" bgcolor="#d9d9d9" width="100%">
-          <table width="100%" role="content-container" class="outer" align="center" cellpadding="0" cellspacing="0" border="0">
-            <tr>
-              <td width="100%">
-                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                  <tr>
-                    <td>
-                      <!--[if mso]>
-                      <center>
-                        <table><tr><td width="600">
-                      <![endif]-->
-                      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;" align="center">
-                        <tr>
-                          <td role="modules-container" style="padding:0px 0px 0px 0px; color:#000000; text-align:left;" bgcolor="#FFFFFF" width="100%" align="left"><table class="module preheader preheader-hide" role="module" data-type="preheader" border="0" cellpadding="0" cellspacing="0" width="100%" style="display: none !important; mso-hide: all; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
-                            <tr>
-                              <td role="module-content">
-                                <p></p>
-                              </td>
-                            </tr>
-                          </table><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="cb31e9b8-b045-4c38-a478-ed2a6e2dc166">
-                            <tbody>
-                            <tr>
-                              <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="center">
-                                <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:100% !important; width:100%; height:auto !important;" width="600" alt="" data-proportionally-constrained="true" data-responsive="true" src="http://cdn.mcauto-images-production.sendgrid.net/57db9386d5df24ca/1252d5d4-1661-4fde-b10e-8bde10eb3b5a/410x102.png">
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="5384899d-5d60-4418-916d-73a1a17edbe0">
-                            <tbody>
-                            <tr>
-                              <td style="padding:0px 0px 0px 0px;" role="module-content" height="100%" valign="top" bgcolor="">
-                                <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" height="5px" style="line-height:5px; font-size:5px;">
-                                  <tbody>
-                                  <tr>
-                                    <td style="padding:0px 0px 5px 0px;" bgcolor="#000000"></td>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="8fd711e6-aecf-4663-bf53-6607f08b57e9" data-mc-module-version="2019-10-22">
-                            <tbody>
-                            <tr>
-                              <td style="padding:10px 10px 10px 10px; line-height:30px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><h2 style="text-align: center; font-family: inherit"><span style="font-family: &quot;trebuchet ms&quot;, helvetica, sans-serif; color: #000000">รายละเอียดการจองห้อง</span></h2><div></div></div></td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c614d8b1-248a-48ea-a30a-8dd0b2c65e10">
-                            <tbody>
-                            <tr>
-                              <td style="padding:0px 40px 0px 40px;" role="module-content" height="100%" valign="top" bgcolor="">
-                                <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" height="3px" style="line-height:3px; font-size:3px;">
-                                  <tbody>
-                                  <tr>
-                                    <td style="padding:0px 0px 3px 0px;" bgcolor="#80817f"></td>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.2" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">Full Name:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1.1" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{fullName}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">Email:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{email}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.3.3" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">Tel:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1.2.3" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{phoneNumber}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.3.2" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">Room:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1.2.2" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{room}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.3.1" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">Reason:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1.2.1" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{reason}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.3" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">From:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1.2" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{startDate}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 40px 0px 40px;" bgcolor="#FFFFFF" data-distribution="1,2">
-                            <tbody>
-                            <tr role="module-content">
-                              <td height="100%" valign="top"><table width="173" style="width:173px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.3.5" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">To:</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table><table width="346" style="width:346px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-1">
-                                <tbody>
-                                <tr>
-                                  <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="64573b96-209a-4822-93ec-5c5c732af15c.1.2.5" data-mc-module-version="2019-10-22">
-                                    <tbody>
-                                    <tr>
-                                      <td style="padding:15px 0px 15px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">{{endDate}}</div><div></div></div></td>
-                                    </tr>
-                                    </tbody>
-                                  </table></td>
-                                </tr>
-                                </tbody>
-                              </table></td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="54da3428-feae-4c1a-a740-9c9fdb4e52d7">
-                            <tbody>
-                            <tr>
-                              <td style="padding:0px 0px 50px 0px;" role="module-content" bgcolor="">
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c614d8b1-248a-48ea-a30a-8dd0b2c65e10.1">
-                            <tbody>
-                            <tr>
-                              <td style="padding:0px 40px 0px 40px;" role="module-content" height="100%" valign="top" bgcolor="">
-                                <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" height="3px" style="line-height:3px; font-size:3px;">
-                                  <tbody>
-                                  <tr>
-                                    <td style="padding:0px 0px 3px 0px;" bgcolor="#80817f"></td>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="0f986857-87df-4c0e-934f-e77105f78192">
-                            <tbody>
-                            <tr>
-                              <td align="center" bgcolor="" class="outer-td" style="padding:30px 0px 0px 0px;">
-                                <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
-                                  <tbody>
-                                  <tr>
-                                    <td align="center" bgcolor="#24d229" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-                                      <a href="https://odds-booking.odds.team/detail/{{id}}" style="background-color:#24d229; border:1px solid #ffecea; border-color:#ffecea; border-radius:30px; border-width:1px; color:#ffffff; display:inline-block; font-size:18px; font-weight:700; letter-spacing:0px; line-height:normal; padding:12px 40px 12px 40px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">ดูรายละเอียด</a>
-                                    </td>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9bbc393c-c337-4d1a-b9f9-f20c740a0d44">
-                            <tbody>
-                            <tr>
-                              <td style="padding:0px 0px 30px 0px;" role="module-content" bgcolor="">
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="20d6cd7f-4fad-4e9c-8fba-f36dba3278fc" data-mc-module-version="2019-10-22">
-                            <tbody>
-                            <tr>
-                              <td style="padding:20px 20px 20px 20px; line-height:32px; text-align:inherit; background-color:#D9D9D9;" height="100%" valign="top" bgcolor="#D9D9D9" role="module-content"><div><div style="font-family: inherit; text-align: center">ขอ ขอบคุณ,</div>
-                                <div style="font-family: inherit; text-align: center">Odds MolaMola Team</div><div></div></div></td>
-                            </tr>
-                            </tbody>
-                          </table></td>
-                        </tr>
-                      </table>
-                      <!--[if mso]>
-                      </td>
-                      </tr>
-                      </table>
-                      </center>
-                      <![endif]-->
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </div>
-</center>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" bgcolor="#838383"
+        style="background-color: #E0E0E0; "><br/> <br/>
+      <table width="600" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top" bgcolor="#d3be6c"
+              style="background-color: white; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
+            <div>
+              <img src="https://i.ibb.co/d2tF5XY/logo.png" />
+            </div>
+            <hr class="new5"/>
+            <div>
+              <h1>รายละเอียดการขอใช้ห้อง</h1>
+            </div>
+            <div>
+              <table width="80%" border="0" cellspacing="5" cellpadding="5"
+                     style="border: solid #E0E0E0; border-radius: 10px;"
+              >
+                <tr>
+                  <td style="width:25%">Name: </td>
+                  <td th:text="${fullName}">fullName</td>
+                </tr>
+
+                <tr>
+                  <td style="width:25%">Email: </td>
+                  <td th:text="${email}">email</td>
+                </tr>
+                <tr>
+                  <td style="width:25%">Tel: </td>
+                  <td th:text="${phoneNumber}">phoneNumber</td>
+                </tr>
+                <tr>
+                  <td style="width:25%">Room: </td>
+                  <td th:text="${room}">room</td>
+                </tr>
+                <tr>
+                  <td style="width:25%">Reason: </td>
+                  <td th:text="${reason}">reason</td>
+                </tr>
+                <tr>
+                  <td style="width:25%">Start Date: </td>
+                  <td ><span><span th:text="${startDate}">startDate</span> น.</span></td>
+                </tr>
+                <tr>
+                  <td style="width:25%">End Date: </td>
+                  <td ><span><span th:text="${endDate}">endDate</span> น.</span></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <br>
+              <a href="#" th:href="${bookingDetailsUrl}" type="button" class="button button1" target="_blank" style="color: white;">
+                See Detail
+              </a>
+              <br><br>
+              ขอขอบคุณ,
+              <br>
+              <b>Odds Mola Mola Team.</b>
+              <br>
+              <br>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <br> <br></td>
+  </tr>
+</table>
 </body>
 </html>

@@ -14,5 +14,4 @@ public class HelpersUtil {
     public static String dateTimeFormatGeneral(LocalDateTime value){
         return value.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
-
 }

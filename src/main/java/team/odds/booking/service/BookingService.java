@@ -1,5 +1,6 @@
 package team.odds.booking.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team.odds.booking.exception.DataNotFound;
 import team.odds.booking.model.Booking;
@@ -7,21 +8,15 @@ import team.odds.booking.model.dto.BookingDto;
 import team.odds.booking.model.mapper.BookingMapper;
 import team.odds.booking.repository.BookingRepository;
 import team.odds.booking.util.HelpersUtil;
-
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final QueueProducerService queueProducerService;
-
-    public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper, QueueProducerService queueProducerService) {
-        this.bookingRepository = bookingRepository;
-        this.bookingMapper = bookingMapper;
-        this.queueProducerService = queueProducerService;
-    }
 
     public Booking getBooking(String bookingId) throws RuntimeException {
         Booking booking = bookingRepository.findById(bookingId)
