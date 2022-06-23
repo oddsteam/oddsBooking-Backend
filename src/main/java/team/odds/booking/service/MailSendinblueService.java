@@ -1,5 +1,6 @@
 package team.odds.booking.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import team.odds.booking.model.Booking;
 import org.springframework.stereotype.Service;
 import sibApi.TransactionalEmailsApi;
@@ -14,15 +15,16 @@ import team.odds.booking.util.HelpersUtil;
 @Service
 public class MailSendinblueService {
 
-//    @Value("${sendinblue.token}")
-//    private String sendinblueToken;
+    @Value("${sendinblue.token}")
+    private String sendinblueToken;
 
     public void mailToUser(Booking booking) {
         String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
 
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-        apiKey.setApiKey("sendinblueToken");
+        apiKey.setApiKey(sendinblueToken);
+        System.out.println(sendinblueToken + "k");
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");
@@ -54,7 +56,7 @@ public class MailSendinblueService {
             CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
             messageId = res.getMessageId();
         } catch (ApiException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         System.out.println(messageId);
     }
@@ -65,7 +67,7 @@ public class MailSendinblueService {
         String endDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getEndDate());
 
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-        apiKey.setApiKey("sendinblueToken");
+        apiKey.setApiKey(sendinblueToken);
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");
