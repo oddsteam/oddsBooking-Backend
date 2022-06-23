@@ -15,8 +15,8 @@ import java.io.IOException;
 public class QueueReceiverService {
 
     private final BookingRepository bookingRepository;
-    private final MailSenderService mailSenderService;
-//    private final MailSendinblueService mailSendinblueService;
+    //    private final MailSenderService mailSenderService;
+    private final MailSendinblueService mailSendinblueService;
 
     @RabbitListener(queues = "odds-booking-message")
     public void receiveMessage(String message) throws IOException, MessagingException {
@@ -24,11 +24,11 @@ public class QueueReceiverService {
         if (bookingOpt.isPresent()) {
             var booking = bookingOpt.get();
             if (Boolean.TRUE.equals(booking.getStatus())) {
-//                if (!mailSendinblueService.mailToOdds(booking))
-                mailSenderService.mailToOdds(booking);
+                mailSendinblueService.mailToOdds(booking);
+//                mailSenderService.mailToOdds(booking);
             } else {
-//                if (!mailSendinblueService.mailToUser(booking))
-                mailSenderService.mailToUser(booking);
+                mailSendinblueService.mailToUser(booking);
+//                mailSenderService.mailToUser(booking);
             }
         } else {
             log.warn("Booking not found : message = {}", message);
