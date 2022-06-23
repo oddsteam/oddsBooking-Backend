@@ -29,6 +29,8 @@
       border: 1.5px solid black;
       border-radius: 5px;
     }
+
+
     </style>
 </head>
 <body>
@@ -57,7 +59,8 @@
                             <p style="color: red;">**กรุณายืนยันภายใน 24 ชม. การยืนยันจะหมดอายุใน**</p>
                             <p style="color: red;"><span th:text="${expiryDate}">expiryDate</span> น.</p>
                             <br>
-                            <a href="#" th:href="${confirmUrl}" type="button" class="button button1" target="_blank" style="color: white;">
+                            <a href="#" th:href="${'https://odds-booking.odds.team/detail/' + id}" type="button"
+                               class="button button1" target="_blank" style="color: white;">
                                 ยืนยัน
                             </a>
                             <br><br>

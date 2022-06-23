@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title th:remove="all">Registration confirmation</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <style>
+    <title th:remove="all">Registration confirmation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
     body {
       font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
     }
@@ -29,76 +29,78 @@
       border: 1.5px solid black;
       border-radius: 5px;
     }
+
     </style>
 </head>
 <body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td align="center" valign="top" bgcolor="#838383"
-        style="background-color: #E0E0E0; "><br/> <br/>
-      <table width="600" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td align="center" valign="top" bgcolor="#d3be6c"
-              style="background-color: white; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
-            <div>
-              <img src="https://i.ibb.co/d2tF5XY/logo.png" />
-            </div>
-            <hr class="new5"/>
-            <div>
-              <h1>รายละเอียดการขอใช้ห้อง</h1>
-            </div>
-            <div>
-              <table width="80%" border="0" cellspacing="5" cellpadding="5"
-                     style="border: solid #E0E0E0; border-radius: 10px;"
-              >
+    <tr>
+        <td align="center" valign="top" bgcolor="#838383"
+            style="background-color: #E0E0E0; "><br/> <br/>
+            <table width="600" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td style="width:25%">Name: </td>
-                  <td th:text="${fullName}">fullName</td>
-                </tr>
+                    <td align="center" valign="top" bgcolor="#d3be6c"
+                        style="background-color: white; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
+                        <div>
+                            <img src="https://i.ibb.co/d2tF5XY/logo.png"/>
+                        </div>
+                        <hr class="new5"/>
+                        <div>
+                            <h1>รายละเอียดการขอใช้ห้อง</h1>
+                        </div>
+                        <div>
+                            <table width="80%" border="0" cellspacing="5" cellpadding="5"
+                                   style="border: solid #E0E0E0; border-radius: 10px;"
+                            >
+                                <tr>
+                                    <td style="width:25%">Name:</td>
+                                    <td th:text="${fullName}">fullName</td>
+                                </tr>
 
-                <tr>
-                  <td style="width:25%">Email: </td>
-                  <td th:text="${email}">email</td>
+                                <tr>
+                                    <td style="width:25%">Email:</td>
+                                    <td th:text="${email}">email</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">Tel:</td>
+                                    <td th:text="${phoneNumber}">phoneNumber</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">Room:</td>
+                                    <td th:text="${room}">room</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">Reason:</td>
+                                    <td th:text="${reason}">reason</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">Start Date:</td>
+                                    <td><span><span th:text="${startDate}">startDate</span> น.</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%">End Date:</td>
+                                    <td><span><span th:text="${endDate}">endDate</span> น.</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div>
+                            <br>
+                            <a href="#" th:href="${'https://odds-booking.odds.team/detail/' + id}"
+                               type="button" class="button button1" target="_blank" style="color: white;">
+                                See Detail
+                            </a>
+                            <br><br>
+                            ขอขอบคุณ,
+                            <br>
+                            <b>Odds Mola Mola Team.</b>
+                            <br>
+                            <br>
+                        </div>
+                    </td>
                 </tr>
-                <tr>
-                  <td style="width:25%">Tel: </td>
-                  <td th:text="${phoneNumber}">phoneNumber</td>
-                </tr>
-                <tr>
-                  <td style="width:25%">Room: </td>
-                  <td th:text="${room}">room</td>
-                </tr>
-                <tr>
-                  <td style="width:25%">Reason: </td>
-                  <td th:text="${reason}">reason</td>
-                </tr>
-                <tr>
-                  <td style="width:25%">Start Date: </td>
-                  <td ><span><span th:text="${startDate}">startDate</span> น.</span></td>
-                </tr>
-                <tr>
-                  <td style="width:25%">End Date: </td>
-                  <td ><span><span th:text="${endDate}">endDate</span> น.</span></td>
-                </tr>
-              </table>
-            </div>
-            <div>
-              <br>
-              <a href="#" th:href="${bookingDetailsUrl}" type="button" class="button button1" target="_blank" style="color: white;">
-                See Detail
-              </a>
-              <br><br>
-              ขอขอบคุณ,
-              <br>
-              <b>Odds Mola Mola Team.</b>
-              <br>
-              <br>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <br> <br></td>
-  </tr>
+            </table>
+            <br> <br></td>
+    </tr>
 </table>
 </body>
 </html>
