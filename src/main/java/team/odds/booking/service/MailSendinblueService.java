@@ -19,15 +19,15 @@ import team.odds.booking.util.HelpersUtil;
 @Service
 public class MailSendinblueService {
 
-    @Value("${sendinblue.token}")
-    private String sendinblueToken;
+//    @Value("${sendinblue.token}")
+//    private String sendinblueToken;
 
-    public void mailToUser(Booking booking) throws IOException {
+    public void mailToUser(Booking booking) {
         String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
 
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-        apiKey.setApiKey(sendinblueToken);
+        apiKey.setApiKey("sendinblueToken");
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");
@@ -70,7 +70,7 @@ public class MailSendinblueService {
         String endDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getEndDate());
 
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
-        apiKey.setApiKey(sendinblueToken);
+        apiKey.setApiKey("sendinblueToken");
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");

@@ -38,6 +38,7 @@ pipeline{
                     sh """
                        scp docker-compose.yml oddsbooking@159.138.240.167:./docker-compose.yml
                        scp deploy-script.sh oddsbooking@159.138.240.167:./deploy-script.sh
+                       echo ${SENDINBLUE_TOKEN}
                        ssh -oStrictHostKeyChecking=no -t oddsbooking@159.138.240.167 \"
                            chmod +x deploy-script.sh
                            REGISTRY=${REGISTRY} \
