@@ -1,14 +1,9 @@
 package team.odds.booking.service;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import org.springframework.beans.factory.annotation.Value;
 import team.odds.booking.model.Booking;
 import org.springframework.stereotype.Service;
 import sibApi.TransactionalEmailsApi;
 
-import java.io.IOException;
 import java.util.*;
 
 import sendinblue.*;

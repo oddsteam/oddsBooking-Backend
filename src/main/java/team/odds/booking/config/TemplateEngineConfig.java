@@ -30,7 +30,6 @@ public class TemplateEngineConfig {
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setCacheable(false);
-
         return templateResolver;
     }
 

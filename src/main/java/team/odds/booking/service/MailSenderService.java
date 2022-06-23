@@ -48,17 +48,17 @@ public class MailSenderService {
         mailComposeParts.setSubject("รายละเอียดการจอง");
         mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
 
-        var templateCTX = new Context(LocaleContextHolder.getLocale());
-        templateCTX.setVariable("id", booking.getId());
-        templateCTX.setVariable("fullName", booking.getFullName());
-        templateCTX.setVariable("email", booking.getEmail());
-        templateCTX.setVariable("phoneNumber", booking.getPhoneNumber());
-        templateCTX.setVariable("room", booking.getRoom());
-        templateCTX.setVariable("reason", booking.getReason());
-        templateCTX.setVariable("startDate",HelpersUtil.dateTimeFormatGeneral(booking.getStartDate()));
-        templateCTX.setVariable("endDate", HelpersUtil.dateTimeFormatGeneral(booking.getEndDate()));
+        var templateCtx = new Context(LocaleContextHolder.getLocale());
+        templateCtx.setVariable("id", booking.getId());
+        templateCtx.setVariable("fullName", booking.getFullName());
+        templateCtx.setVariable("email", booking.getEmail());
+        templateCtx.setVariable("phoneNumber", booking.getPhoneNumber());
+        templateCtx.setVariable("room", booking.getRoom());
+        templateCtx.setVariable("reason", booking.getReason());
+        templateCtx.setVariable("startDate",HelpersUtil.dateTimeFormatGeneral(booking.getStartDate()));
+        templateCtx.setVariable("endDate", HelpersUtil.dateTimeFormatGeneral(booking.getEndDate()));
 
-        String mailContent = this.templateEngine.process("odds_confirm", templateCTX);
+        String mailContent = this.templateEngine.process("odds_confirm", templateCtx);
         mailComposeParts.setText(mailContent, true);
         mailSender.send(mailCompose);
     }
