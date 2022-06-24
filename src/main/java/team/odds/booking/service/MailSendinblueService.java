@@ -1,5 +1,6 @@
 package team.odds.booking.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import team.odds.booking.model.Booking;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import sibModel.*;
 import team.odds.booking.util.HelpersUtil;
 
 @Service
+@Slf4j
 public class MailSendinblueService {
 
     @Value("${sendinblue.token}")
@@ -24,7 +26,6 @@ public class MailSendinblueService {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
         apiKey.setApiKey(sendinblueToken);
-        System.out.println(sendinblueToken + "k");
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");
@@ -56,9 +57,9 @@ public class MailSendinblueService {
             CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
             messageId = res.getMessageId();
         } catch (ApiException e) {
-            System.err.println(e.getMessage());
+            log.error(e.getMessage());
         }
-        System.out.println(messageId);
+        log.info(messageId);
     }
 
     public void mailToOdds(Booking booking) {
@@ -104,8 +105,8 @@ public class MailSendinblueService {
             CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
             messageId = res.getMessageId();
         } catch (ApiException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
-        System.out.println(messageId);
+        log.info(messageId);
     }
 }
