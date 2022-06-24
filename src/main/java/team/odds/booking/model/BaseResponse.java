@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingResponse<T> {
+public class BaseResponse<T> {
 
     @ApiModelProperty(notes = "status", required = true)
     @JsonProperty("status")
