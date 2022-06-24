@@ -76,7 +76,7 @@ public class MailSendinblueService {
         sendFrom.setName("Odds Booking");
 
         SendSmtpEmailTo sendTo = new SendSmtpEmailTo();
-        sendTo.setEmail("roof@odds.team");
+        sendTo.setEmail("dome@odds.team");
         sendTo.setName("Professional ROV player P'Roof");
 
         var replyTo = new SendSmtpEmailReplyTo();
