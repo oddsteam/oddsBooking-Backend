@@ -26,6 +26,7 @@ public class MailSendinblueService {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
         apiKey.setApiKey(sendinblueToken);
+        System.out.println(sendinblueToken);
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");
