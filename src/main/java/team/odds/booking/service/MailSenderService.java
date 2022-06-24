@@ -44,7 +44,7 @@ public class MailSenderService {
     public void mailToOdds(Booking booking) throws MessagingException, UnsupportedEncodingException {
         MimeMessage mailCompose = this.mailSender.createMimeMessage();
         var mailComposeParts = new MimeMessageHelper(mailCompose, true, "UTF-8");
-        mailComposeParts.setTo("dome@odds.team");
+        mailComposeParts.setTo("roof@odds.team");
         mailComposeParts.setSubject("รายละเอียดการจอง");
         mailComposeParts.setFrom(new InternetAddress("odds.molamola@gmail.com", "odds-e"));
 
