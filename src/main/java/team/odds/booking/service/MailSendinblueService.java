@@ -1,6 +1,5 @@
 package team.odds.booking.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import team.odds.booking.model.Booking;
 import org.springframework.stereotype.Service;
@@ -14,19 +13,17 @@ import sibModel.*;
 import team.odds.booking.util.HelpersUtil;
 
 @Service
-@Slf4j
 public class MailSendinblueService {
 
     @Value("${sendinblue.token}")
     private String sendinblueToken;
 
-    public void mailToUser(Booking booking) {
+    public boolean mailToUser(Booking booking) {
         String expiryDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getCreatedAt().plusDays(1));
 
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         ApiKeyAuth apiKey = (ApiKeyAuth) defaultClient.getAuthentication("api-key");
         apiKey.setApiKey(sendinblueToken);
-        System.out.println(sendinblueToken);
 
         var sendFrom = new SendSmtpEmailSender();
         sendFrom.setEmail("odds.molamola@gmail.com");
@@ -53,17 +50,16 @@ public class MailSendinblueService {
         mailCompose.templateId(7L);
 
         var api = new TransactionalEmailsApi();
-        var messageId = "";
+        var errorMessage = "";
         try {
-            CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
-            messageId = res.getMessageId();
+             api.sendTransacEmail(mailCompose);
         } catch (ApiException e) {
-            log.error(e.getMessage());
+            errorMessage = e.getMessage();
         }
-        log.info(messageId);
+        return errorMessage.length() != 0;
     }
 
-    public void mailToOdds(Booking booking) {
+    public boolean mailToOdds(Booking booking) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         String startDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getStartDate());
         String endDateFormat = HelpersUtil.dateTimeFormatGeneral(booking.getEndDate());
@@ -76,7 +72,7 @@ public class MailSendinblueService {
         sendFrom.setName("Odds Booking");
 
         SendSmtpEmailTo sendTo = new SendSmtpEmailTo();
-        sendTo.setEmail("dome@odds.team");
+        sendTo.setEmail("roof@odds.team");
         sendTo.setName("Professional ROV player P'Roof");
 
         var replyTo = new SendSmtpEmailReplyTo();
@@ -101,13 +97,12 @@ public class MailSendinblueService {
         mailCompose.templateId(8L);
 
         var api = new TransactionalEmailsApi();
-        var messageId = "";
+        var errorMessage = "";
         try {
-            CreateSmtpEmail res = api.sendTransacEmail(mailCompose);
-            messageId = res.getMessageId();
+            api.sendTransacEmail(mailCompose);
         } catch (ApiException e) {
-            log.error(e.getMessage());
+            errorMessage = e.getMessage();
         }
-        log.info(messageId);
+        return errorMessage.length() != 0;
     }
 }
