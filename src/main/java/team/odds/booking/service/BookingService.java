@@ -8,6 +8,7 @@ import team.odds.booking.model.dto.BookingDto;
 import team.odds.booking.model.mapper.BookingMapper;
 import team.odds.booking.repository.BookingRepository;
 import team.odds.booking.util.HelpersUtil;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -18,7 +19,7 @@ public class BookingService {
     private final BookingMapper bookingMapper;
     private final QueueProducerService queueProducerService;
 
-    public Booking getBooking(String bookingId) throws RuntimeException {
+    public Booking getBooking(String bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new DataNotFound("Booking not found with this id : " + bookingId));
 
@@ -34,12 +35,7 @@ public class BookingService {
         booking.setCreatedAt(LocalDateTime.now());
         booking.setUpdatedAt(LocalDateTime.now());
 
-        var bookingRes = new Booking();
-        try {
-            bookingRes = bookingRepository.save(booking);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Some error occurred while creating booking", e);
-        }
+        var bookingRes = bookingRepository.save(booking);
         queueProducerService.sendMessage(bookingRes.getId());
         return bookingRes;
     }
@@ -53,12 +49,7 @@ public class BookingService {
         booking.setCreatedAt(bookingById.getCreatedAt());
         booking.setUpdatedAt(LocalDateTime.now());
 
-        var bookingRes = new Booking();
-        try {
-            bookingRes = bookingRepository.save(booking);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Some error occurred while updating booking", e);
-        }
+        var bookingRes = bookingRepository.save(booking);
         queueProducerService.sendMessage(bookingRes.getId());
         return bookingRes;
     }
