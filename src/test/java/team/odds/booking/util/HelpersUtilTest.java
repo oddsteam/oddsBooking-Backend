@@ -25,6 +25,21 @@ public class HelpersUtilTest {
     }
 
     @Test
+    void bookingDateNotExpired() {
+        try (var mockedStatic = Mockito.mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
+            // Arrange
+            var bookingDate = LocalDateTime.of(2022, 8, 10, 8, 0);
+            // Mock LocalDateTime.now()
+            var dateTimeNow = LocalDateTime.of(2022, 8, 10, 8, 0);
+            mockedStatic.when(LocalDateTime::now).thenReturn(dateTimeNow);
+            // Act
+            boolean isExpired = HelpersUtil.checkBookingDateExpired(bookingDate);
+            // Assert
+            assertThat(isExpired).isFalse();
+        }
+    }
+
+    @Test
     void bookingDateGeneralFormat() {
         // Arrange
         var bookingDate = LocalDateTime.of(2022, 8, 10, 8, 0);

@@ -1,6 +1,7 @@
 package team.odds.booking.service;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import team.odds.booking.exception.DataNotFound;
 import team.odds.booking.model.Booking;
 import team.odds.booking.model.dto.BookingDto;
@@ -74,13 +75,21 @@ public class BookingServiceTest {
                 LocalDateTime.now(), LocalDateTime.now()
         );
         when(bookingMapper.toBooking(bookingReq)).thenReturn(bookingRes);
-        when(bookingRepository.save(any(Booking.class))).thenReturn(bookingRes);
+        var booking = bookingMapper.toBooking(bookingReq);
+        when(bookingRepository.save(booking)).thenReturn(bookingRes);
         // Act
-        var addBooking = bookingService.addBooking(bookingReq);
+        var addedBookingRes = bookingService.addBooking(bookingReq);
         // Assert
-        assertThat(addBooking.getId()).isEqualTo("1234");
-        assertThat(addBooking.getStatus()).isEqualTo(false);
-        verify(bookingRepository).save(any(Booking.class));
+        assertThat(addedBookingRes.getId()).isEqualTo("1234");
+        assertThat(addedBookingRes.getStatus()).isEqualTo(false);
+        assertThat(addedBookingRes.getCreatedAt()).isNotNull();
+        assertThat(addedBookingRes.getUpdatedAt()).isNotNull();
+
+        ArgumentCaptor<Booking> captor = ArgumentCaptor.forClass(Booking.class);
+        verify(bookingRepository).save(captor.capture());
+//        Booking b = captor.getValue();
+
+        verify(queueProducerService).sendMessage(addedBookingRes.getId());
     }
 
     @Test
