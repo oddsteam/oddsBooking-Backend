@@ -14,7 +14,7 @@ import team.odds.booking.service.BookingService;
 @RestController
 public class BookingController {
 
-    final BookingService bookingService;
+    private final BookingService bookingService;
 
     @GetMapping(value = "/{bookingId}")
     public ResponseEntity<BaseResponse<Booking>> getBooking(@PathVariable(value = "bookingId") String bookingId) {
