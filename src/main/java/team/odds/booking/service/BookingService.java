@@ -17,7 +17,6 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
-    private final QueueProducerService queueProducerService;
 
     public Booking getBooking(String bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
@@ -34,10 +33,7 @@ public class BookingService {
         var booking = bookingMapper.toBooking(dataRequest);
         booking.setCreatedAt(LocalDateTime.now());
         booking.setUpdatedAt(LocalDateTime.now());
-
-        var bookingRes = bookingRepository.save(booking);
-        queueProducerService.sendMessage(bookingRes.getId());
-        return bookingRes;
+        return bookingRepository.save(booking);
     }
 
     public Booking updateBooking(String bookingId, BookingDto dataRequest) {
@@ -48,9 +44,6 @@ public class BookingService {
         booking.setId(bookingById.getId());
         booking.setCreatedAt(bookingById.getCreatedAt());
         booking.setUpdatedAt(LocalDateTime.now());
-
-        var bookingRes = bookingRepository.save(booking);
-        queueProducerService.sendMessage(bookingRes.getId());
-        return bookingRes;
+        return bookingRepository.save(booking);
     }
 }

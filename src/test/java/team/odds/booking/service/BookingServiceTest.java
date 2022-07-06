@@ -21,8 +21,7 @@ import static org.mockito.Mockito.verify;
 public class BookingServiceTest {
     BookingRepository bookingRepository = mock(BookingRepository.class);
     BookingMapper bookingMapper = mock(BookingMapper.class);
-    QueueProducerService queueProducerService = mock(QueueProducerService.class);
-    BookingService bookingService = new BookingService(bookingRepository, bookingMapper, queueProducerService);
+    BookingService bookingService = new BookingService(bookingRepository, bookingMapper);
 
     @Test
     void getBooking() {
@@ -88,8 +87,6 @@ public class BookingServiceTest {
         ArgumentCaptor<Booking> captor = ArgumentCaptor.forClass(Booking.class);
         verify(bookingRepository).save(captor.capture());
 //        Booking b = captor.getValue();
-
-        verify(queueProducerService).sendMessage(addedBookingRes.getId());
     }
 
     @Test

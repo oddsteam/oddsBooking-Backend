@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
 	implementation "com.sendinblue:sib-api-v3-sdk:6.0.0"
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
